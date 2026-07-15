@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Danio">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2F81F2"/>
+      <stop offset="1" stop-color="#0E4EAF"/>
+    </linearGradient>
+    <clipPath id="fclip">
+      <path d="M104 48 C92 30 58 26 30 32 C22 38 22 58 30 64 C58 70 92 66 104 48 Z"/>
+    </clipPath>
+    <mask id="neg">
+      <rect width="128" height="96" fill="#fff"/>
+      <g clip-path="url(#fclip)" fill="#000">
+        <rect x="22" y="38.4" width="86" height="3.4" rx="1.7"/>
+        <rect x="18" y="46.3" width="92" height="3.4" rx="1.7"/>
+        <rect x="22" y="54.2" width="86" height="3.4" rx="1.7"/>
+      </g>
+      <circle cx="90.5" cy="44" r="3.6" fill="#000"/>
+    </mask>
+  </defs>
+  <rect width="128" height="128" rx="30" fill="url(#bg)"/>
+  <g transform="translate(2,16) scale(0.96)" mask="url(#neg)" fill="#fff">
+    <path d="M30 40 L4 28 C16 40 16 56 4 68 L30 56 Z"/>
+    <path d="M50 31 C56 18 66 18 74 31 Z"/>
+    <path d="M52 65 C58 77 66 77 72 65 Z"/>
+    <path d="M104 48 C92 30 58 26 30 32 C22 38 22 58 30 64 C58 70 92 66 104 48 Z"/>
+  </g>
+</svg>
