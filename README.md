@@ -22,7 +22,7 @@ in about 2,000 lines you can read in an afternoon. It isn't a wrapper around Rea
 of Preact; it's the whole engine, written to be understood. **If you know React, you already
 know Danio.**
 
-🌐 **[Website](https://gagankarthik.github.io/danio-js/)** &nbsp;·&nbsp; 📖 **[Documentation](https://gagankarthik.github.io/danio-js/docs.html)** &nbsp;·&nbsp; 🎨 **[Brand kit](https://gagankarthik.github.io/danio-js/brand.html)**
+🌐 **[Website](https://gagankarthik.github.io/danio/)** &nbsp;·&nbsp; 📖 **[Documentation](https://gagankarthik.github.io/danio/docs.html)** &nbsp;·&nbsp; 🎨 **[Brand kit](https://gagankarthik.github.io/danio/brand.html)**
 
 ```jsx
 import { render, useState } from 'danio-js'

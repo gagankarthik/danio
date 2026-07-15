@@ -22,7 +22,7 @@ npx create-danio my-app
 ```
 
 Zero dependencies — it's just Node copying a template. See the
-[Danio docs](https://github.com/gagankarthik/danio-js#readme) for everything else.
+[Danio docs](https://github.com/gagankarthik/danio#readme) for everything else.
 
 ## License
 

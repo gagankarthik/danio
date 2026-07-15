@@ -19,7 +19,7 @@ Danio has no runtime dependencies; the only dev dependencies are Vite (to compil
 jsdom (to test), and TypeScript (to type-check).
 
 ```bash
-git clone https://github.com/gagankarthik/danio-js.git
+git clone https://github.com/gagankarthik/danio.git
 cd danio-js
 npm install
 
