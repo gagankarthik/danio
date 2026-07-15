@@ -1,0 +1,56 @@
+name: Publish to npm
+
+# Publishes from CI using an npm token stored as the NPM_TOKEN secret, so it works
+# without an interactive 2FA prompt (useful when your account uses a security key).
+#
+# Setup (once):
+#   1. Create an npm "Automation" access token at npmjs.com -> Access Tokens.
+#      (Automation tokens are the ones allowed to publish from CI without an OTP.)
+#   2. Add it to this repo: Settings -> Secrets and variables -> Actions -> New secret
+#      named NPM_TOKEN.  (or: gh secret set NPM_TOKEN)
+#
+# Then publish either by cutting a GitHub Release, or via "Run workflow" below.
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Which package to publish
+        type: choice
+        default: both
+        options: [both, danio, create-danio]
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write   # enables npm provenance ("built on GitHub Actions")
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dev dependencies (for tests + build)
+        run: npm install --no-audit --no-fund
+
+      - name: Publish danio
+        if: ${{ github.event_name == 'release' || inputs.package == 'both' || inputs.package == 'danio' }}
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish create-danio
+        if: ${{ github.event_name == 'release' || inputs.package == 'both' || inputs.package == 'create-danio' }}
+        working-directory: create-danio
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Danio — logo &amp; brand mark</title>
+<meta name="description" content="The illustrated logo and brand mark for Danio, a tiny, readable frontend framework." />
+<style>
+  :root {
+    --paper:#F4F6F9; --paper-2:#FFFFFF; --sunk:#EAEEF4;
+    --ink:#10151C; --ink-2:#3C4652; --ink-3:#6B7788;
+    --line:#D9E0EA; --line-2:#C6D0DD;
+    --azure:#1466E0; --azure-deep:#0E4EAF; --azure-lite:#2F81F2;
+    --amber:#F4B740; --cream:#EAF2FF;
+    --serif: Charter,"Iowan Old Style","Palatino Linotype",Georgia,serif;
+    --sans: system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono: ui-monospace,"SF Mono","Cascadia Code","Segoe UI Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --paper:#0B1017; --paper-2:#111925; --sunk:#0C121B; --ink:#EAF0F7; --ink-2:#B4C1D1;
+      --ink-3:#7E8D9E; --line:#1E2836; --line-2:#2A3646; --azure:#5B9DFF; --azure-deep:#8FBAFF; }
+  }
+  :root[data-theme="light"]{ --paper:#F4F6F9; --paper-2:#FFFFFF; --sunk:#EAEEF4; --ink:#10151C; --ink-2:#3C4652; --ink-3:#6B7788; --line:#D9E0EA; --line-2:#C6D0DD; --azure:#1466E0; --azure-deep:#0E4EAF; }
+  :root[data-theme="dark"]{ --paper:#0B1017; --paper-2:#111925; --sunk:#0C121B; --ink:#EAF0F7; --ink-2:#B4C1D1; --ink-3:#7E8D9E; --line:#1E2836; --line-2:#2A3646; --azure:#5B9DFF; --azure-deep:#8FBAFF; }
+
+  *{box-sizing:border-box}
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+    -webkit-font-smoothing:antialiased; line-height:1.55; overflow-x:hidden; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 clamp(20px,5vw,40px); }
+  .eyebrow{ font-size:12px; font-weight:640; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-3); }
+  h1,h2{ font-family:var(--serif); letter-spacing:-.02em; text-wrap:balance; margin:0; }
+
+  header.top{ padding:clamp(40px,7vw,72px) 0 20px; }
+  .hero-lockup{ display:flex; align-items:center; gap:clamp(16px,3vw,28px); flex-wrap:wrap; }
+  .hero-lockup .fishwrap{ width:clamp(96px,16vw,168px); flex:none; }
+  .wordmark{ font-family:var(--sans); font-weight:760; letter-spacing:-.03em;
+    font-size:clamp(48px,10vw,104px); line-height:.9; color:var(--ink); }
+  .wordmark .i-dot{ color:var(--amber); }
+  .tagline{ font-family:var(--serif); font-style:italic; color:var(--ink-2); font-size:clamp(16px,2.4vw,22px); margin-top:10px; }
+  header.top p.lead{ color:var(--ink-2); max-width:60ch; margin:22px 0 0; font-size:16.5px; }
+
+  section{ padding:clamp(34px,5vw,54px) 0; border-top:1px solid var(--line); }
+  .sec-h{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:26px; }
+  .sec-h h2{ font-size:clamp(22px,3.4vw,30px); }
+  .sec-h .n{ font-family:var(--mono); font-size:12.5px; color:var(--azure); }
+
+  .grid{ display:grid; gap:16px; }
+  .cols-3{ grid-template-columns:repeat(3,1fr); }
+  .cols-2{ grid-template-columns:repeat(2,1fr); }
+  @media (max-width:760px){ .cols-3{ grid-template-columns:1fr 1fr; } .cols-2{ grid-template-columns:1fr; } }
+  @media (max-width:480px){ .cols-3{ grid-template-columns:1fr; } }
+
+  .tile{ border:1px solid var(--line); border-radius:16px; background:var(--paper-2); padding:26px;
+    min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; min-height:170px; }
+  .tile .cap{ font-family:var(--mono); font-size:11.5px; color:var(--ink-3); letter-spacing:.03em; text-transform:uppercase; }
+  .tile.dark{ background:#0B1017; border-color:#1E2836; }
+  .tile.dark .cap{ color:#7E8D9E; }
+  .tile.azure{ background:var(--azure); border-color:var(--azure-deep); }
+  .tile.azure .cap{ color:rgba(255,255,255,.75); }
+  .tile.sunk{ background:var(--sunk); }
+
+  .mk-sm{ width:74px } .mk-md{ width:104px } .mk-lg{ width:132px }
+  .lock-h{ display:flex; align-items:center; gap:14px; }
+  .lock-h .fw{ width:64px; flex:none; }
+  .lock-h .name{ font-weight:760; letter-spacing:-.03em; font-size:38px; }
+  .name.on-dark{ color:#EAF0F7 } .name.on-azure{ color:#fff }
+  .lock-v{ display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .lock-v .fw{ width:88px } .lock-v .name{ font-weight:760; letter-spacing:-.03em; font-size:32px; }
+
+  /* palette */
+  .sw{ border:1px solid var(--line); border-radius:14px; overflow:hidden; min-width:0; }
+  .sw .chip{ height:88px; }
+  .sw .meta{ padding:12px 14px; background:var(--paper-2); }
+  .sw .meta b{ display:block; font-size:14px; }
+  .sw .meta span{ font-family:var(--mono); font-size:12px; color:var(--ink-3); }
+  .pal{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
+  @media (max-width:760px){ .pal{ grid-template-columns:repeat(2,1fr);} }
+
+  /* type specimens */
+  .spec{ border:1px solid var(--line); border-radius:14px; padding:22px 24px; background:var(--paper-2); min-width:0; }
+  .spec .role{ font-family:var(--mono); font-size:11.5px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.05em; }
+  .spec .big-serif{ font-family:var(--serif); font-size:clamp(28px,4vw,40px); letter-spacing:-.02em; margin-top:8px; }
+  .spec .big-sans{ font-family:var(--sans); font-weight:720; font-size:clamp(26px,3.6vw,36px); letter-spacing:-.02em; margin-top:8px; }
+  .spec .big-mono{ font-family:var(--mono); font-size:clamp(18px,2.6vw,24px); margin-top:10px; color:var(--azure); }
+
+  .dl{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:640px){ .dl{ grid-template-columns:1fr; } }
+  .rule{ border:1px solid var(--line); border-radius:14px; padding:18px 20px; background:var(--paper-2); min-width:0; }
+  .rule h4{ margin:0 0 8px; font-size:14px; display:flex; align-items:center; gap:8px; }
+  .rule.do h4{ color:var(--azure); } .rule.dont h4{ color:#c0453a; }
+  .rule p{ margin:0; color:var(--ink-2); font-size:15px; }
+
+  footer{ border-top:1px solid var(--line); padding:36px 0 60px; color:var(--ink-3); font-size:13.5px; }
+  footer .mono{ font-family:var(--mono); }
+</style>
+<style>
+.homebar{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:10px;padding:12px clamp(20px,5vw,40px);border-bottom:1px solid var(--line);background:var(--paper);font-family:var(--sans);font-size:14px}
+.homebar a{color:var(--ink-2);font-weight:600}.homebar a:hover{color:var(--azure)}.homebar .sp{margin-left:auto}
+</style>
+</head>
+<body>
+<div class="homebar"><a href="index.html">← Danio home</a><span class="sp"></span><a href="docs.html">Docs</a><a href="https://github.com/gagankarthik/danio">GitHub</a></div>
+
+<!-- ============ REUSABLE FISH MARK (as an inline template we clone) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="danioBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2F81F2"/>
+      <stop offset="1" stop-color="#0E4EAF"/>
+    </linearGradient>
+    <clipPath id="danioClip">
+      <path d="M104 48 C92 30 58 26 30 32 C22 38 22 58 30 64 C58 70 92 66 104 48 Z"/>
+    </clipPath>
+    <g id="danioMark">
+      <path d="M30 40 L4 28 C16 40 16 56 4 68 L30 56 Z" fill="#0E4EAF"/>
+      <path d="M50 31 C56 18 66 18 74 31 Z" fill="#F4B740"/>
+      <path d="M52 65 C58 77 66 77 72 65 Z" fill="#1B6EF3"/>
+      <path d="M104 48 C92 30 58 26 30 32 C22 38 22 58 30 64 C58 70 92 66 104 48 Z" fill="url(#danioBody)"/>
+      <g clip-path="url(#danioClip)" fill="#EAF2FF" opacity="0.85">
+        <rect x="22" y="38.4" width="86" height="3.4" rx="1.7"/>
+        <rect x="18" y="46.3" width="92" height="3.4" rx="1.7"/>
+        <rect x="22" y="54.2" width="86" height="3.4" rx="1.7"/>
+      </g>
+      <circle cx="90" cy="44" r="6.2" fill="#fff"/>
+      <circle cx="91.4" cy="44" r="3.1" fill="#10151C"/>
+      <circle cx="89.5" cy="42.3" r="1.25" fill="#fff"/>
+      <circle cx="112" cy="38" r="3" fill="#F4B740"/>
+      <circle cx="119" cy="31" r="1.8" fill="#F4B740" opacity="0.7"/>
+    </g>
+    <!-- monochrome variant: currentColor silhouette with the stripes and eye knocked
+         out as true transparent holes, so it reads on any background. -->
+    <mask id="danioNeg">
+      <rect width="128" height="96" fill="#fff"/>
+      <g clip-path="url(#danioClip)" fill="#000">
+        <rect x="22" y="38.4" width="86" height="3.2" rx="1.6"/>
+        <rect x="18" y="46.4" width="92" height="3.2" rx="1.6"/>
+        <rect x="22" y="54.4" width="86" height="3.2" rx="1.6"/>
+      </g>
+      <circle cx="90.5" cy="44" r="3.4" fill="#000"/>
+    </mask>
+    <g id="danioMono" mask="url(#danioNeg)" fill="currentColor">
+      <path d="M30 40 L4 28 C16 40 16 56 4 68 L30 56 Z"/>
+      <path d="M50 31 C56 18 66 18 74 31 Z"/>
+      <path d="M52 65 C58 77 66 77 72 65 Z"/>
+      <path d="M104 48 C92 30 58 26 30 32 C22 38 22 58 30 64 C58 70 92 66 104 48 Z"/>
+    </g>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Brand mark</div>
+    <div class="hero-lockup" style="margin-top:20px">
+      <span class="fishwrap"><svg viewBox="0 0 128 96"><use href="#danioMark"/></svg></span>
+      <div>
+        <div class="wordmark">dan<span class="i-dot">i</span>o</div>
+        <div class="tagline">a tiny fish. a tiny framework.</div>
+      </div>
+    </div>
+    <p class="lead">Danio is named for the zebra danio — one of the smallest, quickest fish there is. The mark keeps its two signatures: the lateral stripes, and a bright, curious eye. Azure body, cream stripes, an amber eye and a trail of bubbles.</p>
+  </div>
+</header>
+
+<!-- VARIATIONS -->
+<section>
+  <div class="wrap">
+    <div class="sec-h"><span class="n">01</span><h2>The mark, everywhere it goes</h2></div>
+    <div class="grid cols-3">
+      <div class="tile"><svg class="mk-lg" viewBox="0 0 128 96"><use href="#danioMark"/></svg><span class="cap">Primary · on light</span></div>
+      <div class="tile dark"><svg class="mk-lg" viewBox="0 0 128 96"><use href="#danioMark"/></svg><span class="cap">On dark</span></div>
+      <div class="tile azure"><svg class="mk-lg" viewBox="0 0 128 96" style="color:#fff"><use href="#danioMono"/></svg><span class="cap">Reversed · on brand</span></div>
+      <div class="tile"><div class="lock-h"><span class="fw"><svg viewBox="0 0 128 96"><use href="#danioMark"/></svg></span><span class="name">danio</span></div><span class="cap">Horizontal lockup</span></div>
+      <div class="tile sunk"><div class="lock-v"><span class="fw"><svg viewBox="0 0 128 96"><use href="#danioMark"/></svg></span><span class="name">danio</span></div><span class="cap">Stacked lockup</span></div>
+      <div class="tile"><svg class="mk-md" viewBox="0 0 128 96" style="color:var(--ink)"><use href="#danioMono"/></svg><span class="cap">Monochrome</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- APP ICON -->
+<section>
+  <div class="wrap">
+    <div class="sec-h"><span class="n">02</span><h2>App icon &amp; favicon</h2></div>
+    <div class="grid cols-3">
+      <div class="tile" style="background:var(--paper-2)">
+        <div style="width:120px;height:120px;border-radius:28px;background:linear-gradient(160deg,#2F81F2,#0E4EAF);display:grid;place-items:center;box-shadow:0 12px 30px -12px rgba(14,78,175,.6)">
+          <svg style="width:84px;color:#fff" viewBox="0 0 128 96"><use href="#danioMono"/></svg>
+        </div>
+        <span class="cap">Squircle · reversed mark</span>
+      </div>
+      <div class="tile">
+        <div style="width:120px;height:120px;border-radius:28px;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center">
+          <svg style="width:88px" viewBox="0 0 128 96"><use href="#danioMark"/></svg>
+        </div>
+        <span class="cap">Light tile · full colour</span>
+      </div>
+      <div class="tile dark">
+        <div style="width:120px;height:120px;border-radius:28px;background:#111925;border:1px solid #1E2836;display:grid;place-items:center">
+          <svg style="width:88px" viewBox="0 0 128 96"><use href="#danioMark"/></svg>
+        </div>
+        <span class="cap">Dark tile · full colour</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PALETTE -->
+<section>
+  <div class="wrap">
+    <div class="sec-h"><span class="n">03</span><h2>Palette</h2></div>
+    <div class="pal">
+      <div class="sw"><div class="chip" style="background:#1466E0"></div><div class="meta"><b>Azure</b><span>#1466E0</span></div></div>
+      <div class="sw"><div class="chip" style="background:#0E4EAF"></div><div class="meta"><b>Deep azure</b><span>#0E4EAF</span></div></div>
+      <div class="sw"><div class="chip" style="background:#F4B740"></div><div class="meta"><b>Amber</b><span>#F4B740</span></div></div>
+      <div class="sw"><div class="chip" style="background:#EAF2FF;border-bottom:1px solid var(--line)"></div><div class="meta"><b>Cream stripe</b><span>#EAF2FF</span></div></div>
+      <div class="sw"><div class="chip" style="background:#10151C"></div><div class="meta"><b>Ink</b><span>#10151C</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPE -->
+<section>
+  <div class="wrap">
+    <div class="sec-h"><span class="n">04</span><h2>Typefaces</h2></div>
+    <div class="grid cols-3">
+      <div class="spec"><div class="role">Display · serif</div><div class="big-serif">A framework you can read.</div></div>
+      <div class="spec"><div class="role">UI · humanist sans</div><div class="big-sans">danio · install · deploy</div></div>
+      <div class="spec"><div class="role">Code · mono</div><div class="big-mono">npm&nbsp;create&nbsp;danio</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RULES -->
+<section>
+  <div class="wrap">
+    <div class="sec-h"><span class="n">05</span><h2>A few rules</h2></div>
+    <div class="dl">
+      <div class="rule do"><h4>✓ Do</h4><p>Give the fish room — keep clear space around it equal to the height of its eye. Let it swim to the right. Use the amber eye as the single warm accent.</p></div>
+      <div class="rule do"><h4>✓ Do</h4><p>Set the wordmark lowercase in the humanist sans, tight tracking. Pair it with the mark at the horizontal or stacked lockup shown above.</p></div>
+      <div class="rule dont"><h4>✕ Don't</h4><p>Don't recolour the body outside azure, stretch the fish, add a second accent, or flip it to face left. Don't outline the mark.</p></div>
+      <div class="rule dont"><h4>✕ Don't</h4><p>Don't place the full-colour mark on a busy photo — use the monochrome or reversed variant on anything that isn't a flat, calm ground.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Danio — a tiny, readable frontend framework. <span class="mono">npm&nbsp;i&nbsp;danio</span> · MIT licensed.
+  </div>
+</footer>
+</body>
+</html>
