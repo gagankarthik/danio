@@ -5,13 +5,13 @@
   "type": "module",
   "license": "MIT",
   "author": "Danio",
-  "homepage": "https://github.com/your-org/danio#readme",
+  "homepage": "https://github.com/gagankarthik/danio#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/danio.git"
+    "url": "git+https://github.com/gagankarthik/danio.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/danio/issues"
+    "url": "https://github.com/gagankarthik/danio/issues"
   },
   "keywords": [
     "framework",

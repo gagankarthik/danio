@@ -4,10 +4,10 @@
   "description": "Scaffold a new Danio app in seconds. Run `npm create danio@latest`.",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://github.com/your-org/danio/tree/main/create-danio#readme",
+  "homepage": "https://github.com/gagankarthik/danio/tree/main/create-danio#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/danio.git",
+    "url": "git+https://github.com/gagankarthik/danio.git",
     "directory": "create-danio"
   },
   "bin": {
