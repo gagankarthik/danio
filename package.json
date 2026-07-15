@@ -1,0 +1,78 @@
+{
+  "name": "danio",
+  "version": "0.1.0",
+  "description": "A fast, dependency-free frontend framework built from scratch: fiber reconciler, hooks, store, and router. If you know React, you know Danio.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Danio",
+  "homepage": "https://github.com/your-org/danio#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/danio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/danio/issues"
+  },
+  "keywords": [
+    "framework",
+    "frontend",
+    "virtual-dom",
+    "fiber",
+    "reconciler",
+    "hooks",
+    "jsx",
+    "store",
+    "router",
+    "reactive",
+    "ui"
+  ],
+  "sideEffects": false,
+  "types": "./types/index.d.ts",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./server": {
+      "types": "./types/server.d.ts",
+      "default": "./src/server/index.js"
+    },
+    "./jsx-runtime": {
+      "types": "./types/jsx-runtime.d.ts",
+      "default": "./src/jsx-runtime.js"
+    },
+    "./jsx-dev-runtime": {
+      "types": "./types/jsx-runtime.d.ts",
+      "default": "./src/jsx-dev-runtime.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "types",
+    "assets",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:lib": "vite build --config vite.lib.config.js",
+    "preview": "vite preview",
+    "test": "node --test test/danio.test.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "bench": "node bench/bench.mjs",
+    "prepublishOnly": "npm test && npm run build:lib"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "typescript": "^5.5.0",
+    "vite": "^5.4.0"
+  }
+}
