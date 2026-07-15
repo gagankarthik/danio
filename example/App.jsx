@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from 'danio'
+import { Routes, Route, Link } from 'danio-js'
 import { Home } from './pages/Home.jsx'
 import { Todos } from './pages/Todos.jsx'
 import { TodoDetail } from './pages/TodoDetail.jsx'

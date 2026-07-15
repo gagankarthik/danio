@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "danio": "^0.1.0"
+    "danio-js": "^0.1.0"
   },
   "devDependencies": {
     "vite": "^5.4.0"

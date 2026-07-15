@@ -1,4 +1,4 @@
-import { useLocation, Link } from 'danio'
+import { useLocation, Link } from 'danio-js'
 
 export function NotFound() {
   const { pathname } = useLocation()

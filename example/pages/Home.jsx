@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Link } from 'danio'
+import { useState, useEffect, useRef, Link } from 'danio-js'
 
 /** Local state + an effect with a dep array. */
 function Counter() {

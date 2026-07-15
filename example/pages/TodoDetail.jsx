@@ -1,4 +1,4 @@
-import { useParams, useSelector, useDispatch, useNavigate, Link } from 'danio'
+import { useParams, useSelector, useDispatch, useNavigate, Link } from 'danio-js'
 
 export function TodoDetail() {
   // `:id` from the route pattern /todos/:id

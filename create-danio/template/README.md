@@ -1,6 +1,6 @@
 # __APP_NAME__
 
-A [Danio](https://www.npmjs.com/package/danio) app.
+A [Danio](https://www.npmjs.com/package/danio-js) app.
 
 ## Develop
 
@@ -27,5 +27,5 @@ The `dist/` folder is a static site. Deploy it as-is:
 ## Learn Danio
 
 If you know React, you already know Danio: same `useState`, `useEffect`, JSX, and component
-model. See the [Danio docs](https://www.npmjs.com/package/danio) for hooks, the store, and the
+model. See the [Danio docs](https://www.npmjs.com/package/danio-js) for hooks, the store, and the
 router.

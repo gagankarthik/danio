@@ -20,7 +20,7 @@ export default defineConfig({
     minify: 'esbuild',
     lib: {
       entry: {
-        danio: entry('./src/index.js'),
+        'danio-js': entry('./src/index.js'),
         'jsx-runtime': entry('./src/jsx-runtime.js'),
         'jsx-dev-runtime': entry('./src/jsx-dev-runtime.js'),
       },

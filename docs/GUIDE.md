@@ -36,7 +36,7 @@ That gives you a Vite project wired for Danio, running at `http://localhost:5173
 ### Add Danio to an existing project
 
 ```bash
-npm install danio
+npm install danio-js
 ```
 
 Then tell your bundler to compile JSX with Danio's runtime. With **Vite**:
@@ -46,7 +46,7 @@ Then tell your bundler to compile JSX with Danio's runtime. With **Vite**:
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  esbuild: { jsx: 'automatic', jsxImportSource: 'danio' },
+  esbuild: { jsx: 'automatic', jsxImportSource: 'danio-js' },
 })
 ```
 
@@ -56,7 +56,7 @@ For editor autocomplete and type-checking, add a `jsconfig.json` (or `tsconfig.j
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "danio",
+    "jsxImportSource": "danio-js",
     "moduleResolution": "Bundler"
   }
 }
@@ -71,7 +71,7 @@ Danio ships its own TypeScript definitions — no `@types/*` package to install.
 A component is a function that returns markup. Mount it with `render`.
 
 ```jsx
-import { render } from 'danio'
+import { render } from 'danio-js'
 
 function Hello({ name }) {
   return <h1>Hello, {name}</h1>
@@ -116,7 +116,7 @@ function Card({ title, open }) {
 setter re-renders the component.
 
 ```jsx
-import { useState } from 'danio'
+import { useState } from 'danio-js'
 
 function Counter() {
   const [count, setCount] = useState(0)
@@ -145,7 +145,7 @@ const [rows, setRows] = useState(() => expensiveInitialParse())
 subscriptions, or fetches. Return a function to clean up.
 
 ```jsx
-import { useState, useEffect } from 'danio'
+import { useState, useEffect } from 'danio-js'
 
 function Clock() {
   const [now, setNow] = useState(() => new Date())
@@ -217,7 +217,7 @@ Danio warns in development if a list is missing keys.
 Grabbing a DOM node with `useRef`:
 
 ```jsx
-import { useRef } from 'danio'
+import { useRef } from 'danio-js'
 
 function SearchBox() {
   const input = useRef(null)
@@ -240,7 +240,7 @@ loop, or after an early `return`. Danio warns when the order changes.
 Pass values deep into the tree without threading props through every level.
 
 ```jsx
-import { createContext, useContext } from 'danio'
+import { createContext, useContext } from 'danio-js'
 
 const Theme = createContext('light')
 
@@ -266,7 +266,7 @@ By default, when a component re-renders, its children re-render too. `memo` skip
 props haven't changed (compared shallowly).
 
 ```jsx
-import { memo } from 'danio'
+import { memo } from 'danio-js'
 
 const Row = memo(function Row({ label }) {
   return <li>{label}</li>
@@ -285,7 +285,7 @@ A thrown error in a component would otherwise blank the whole page. An `ErrorBou
 the failure to one subtree and shows a fallback instead.
 
 ```jsx
-import { ErrorBoundary } from 'danio'
+import { ErrorBoundary } from 'danio-js'
 
 function App() {
   return (
@@ -315,7 +315,7 @@ For app-wide state, Danio includes a Redux-style store: one state object, change
 dispatching actions through pure reducers.
 
 ```jsx
-import { createStore, combineReducers, applyMiddleware, thunk } from 'danio'
+import { createStore, combineReducers, applyMiddleware, thunk } from 'danio-js'
 
 function todos(state = [], action) {
   switch (action.type) {
@@ -334,7 +334,7 @@ export const store = createStore(
 Put the store on context, then read and dispatch from any component:
 
 ```jsx
-import { StoreProvider, useSelector, useDispatch } from 'danio'
+import { StoreProvider, useSelector, useDispatch } from 'danio-js'
 
 render(
   <StoreProvider store={store}>
@@ -372,7 +372,7 @@ dispatch(loadTodos())
 Map the URL to a screen with the History API — no page reloads.
 
 ```jsx
-import { Router, Routes, Route, Link } from 'danio'
+import { Router, Routes, Route, Link } from 'danio-js'
 
 function App() {
   return (
@@ -395,7 +395,7 @@ function App() {
 First match wins, so put the catch-all `path="*"` last. Read route data with hooks:
 
 ```jsx
-import { useParams, useNavigate, useSearchParams } from 'danio'
+import { useParams, useNavigate, useSearchParams } from 'danio-js'
 
 function TodoDetail() {
   const { id } = useParams()          // /todos/42 → { id: '42' }
@@ -422,7 +422,7 @@ changes — there's a single render.
 
 ```js
 // server.js
-import { renderToString } from 'danio/server'
+import { renderToString } from 'danio-js/server'
 import { App } from './App.js'
 
 app.get('*', (req, res) => {
@@ -438,7 +438,7 @@ app.get('*', (req, res) => {
 })
 ```
 
-Importing from `danio/server` (not `danio`) keeps the DOM layer and router out of your
+Importing from `danio-js/server` (not `danio-js`) keeps the DOM layer and router out of your
 server bundle. `renderToStaticMarkup` is the same function under a different name, for output
 you don't intend to hydrate.
 
@@ -449,7 +449,7 @@ there's no flash of dead markup.
 
 ```jsx
 // client.js
-import { hydrate } from 'danio'
+import { hydrate } from 'danio-js'
 import { App } from './App.js'
 
 hydrate(<App />, document.getElementById('root'))
@@ -504,7 +504,7 @@ you can write it directly and open an HTML file — no npm, no Vite:
 
 ```html
 <script type="module">
-  import { h, render, useState } from 'https://esm.sh/danio'
+  import { h, render, useState } from 'https://esm.sh/danio-js'
 
   function Counter() {
     const [n, setN] = useState(0)

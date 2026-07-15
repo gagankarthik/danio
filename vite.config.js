@@ -7,17 +7,17 @@ const resolvePath = (p) => fileURLToPath(new URL(p, import.meta.url))
 // The library itself is built with vite.lib.config.js.
 export default defineConfig({
   // Compile JSX using Danio's automatic runtime: esbuild emits
-  // `import { jsx } from 'danio/jsx-runtime'` into every .jsx file, so app code
+  // `import { jsx } from 'danio-js/jsx-runtime'` into every .jsx file, so app code
   // never imports anything just to use JSX.
   esbuild: {
     jsx: 'automatic',
-    jsxImportSource: 'danio',
+    jsxImportSource: 'danio-js',
   },
   resolve: {
     alias: [
-      { find: /^danio\/jsx-dev-runtime$/, replacement: resolvePath('./src/jsx-dev-runtime.js') },
-      { find: /^danio\/jsx-runtime$/, replacement: resolvePath('./src/jsx-runtime.js') },
-      { find: /^danio$/, replacement: resolvePath('./src/index.js') },
+      { find: /^danio-js\/jsx-dev-runtime$/, replacement: resolvePath('./src/jsx-dev-runtime.js') },
+      { find: /^danio-js\/jsx-runtime$/, replacement: resolvePath('./src/jsx-runtime.js') },
+      { find: /^danio-js$/, replacement: resolvePath('./src/index.js') },
     ],
   },
 })

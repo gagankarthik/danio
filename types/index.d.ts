@@ -93,7 +93,7 @@ export function render(element: DanioNode, container: Element): Root
  */
 export function hydrate(element: DanioNode, container: Element): Root
 
-/** Render an element tree to an HTML string. Also exported from `danio/server`. */
+/** Render an element tree to an HTML string. Also exported from `danio-js/server`. */
 export function renderToString(element: DanioNode): string
 
 /** Alias of `renderToString`; signals HTML that will not be hydrated. */
@@ -276,7 +276,7 @@ export function useParams<P extends Record<string, string> = Record<string, stri
 export function useSearchParams(): Record<string, string>
 
 // ============================================================================
-// JSX — re-exported so `import { JSX } from 'danio'` works if needed
+// JSX — re-exported so `import { JSX } from 'danio-js'` works if needed
 // ============================================================================
 
 export { JSX } from './jsx-runtime'

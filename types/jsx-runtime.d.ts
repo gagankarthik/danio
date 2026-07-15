@@ -1,7 +1,7 @@
 /**
  * JSX types for Danio's automatic runtime.
  *
- * With `jsxImportSource: 'danio'` (or the TS `jsxImportSource` compiler option),
+ * With `jsxImportSource: 'danio-js'` (or the TS `jsxImportSource` compiler option),
  * TypeScript reads the `JSX` namespace from here to typecheck every `<tag>` and component.
  *
  * The intrinsic-element typing is deliberately pragmatic: common attributes and all DOM

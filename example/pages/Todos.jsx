@@ -1,4 +1,4 @@
-import { useState, useSelector, useDispatch, useMemo, Link } from 'danio'
+import { useState, useSelector, useDispatch, useMemo, Link } from 'danio-js'
 import { addTodoLater } from '../store.js'
 
 const FILTERS = ['all', 'active', 'done']

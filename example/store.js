@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware, thunk, logger } from 'danio'
+import { createStore, combineReducers, applyMiddleware, thunk, logger } from 'danio-js'
 
 let nextId = 4
 

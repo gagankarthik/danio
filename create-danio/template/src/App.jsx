@@ -1,4 +1,4 @@
-import { useState } from 'danio'
+import { useState } from 'danio-js'
 
 export function App() {
   const [count, setCount] = useState(0)

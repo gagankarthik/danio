@@ -26,7 +26,7 @@ import {
   useParams,
   type FC,
   type Reducer,
-} from 'danio'
+} from 'danio-js'
 
 // --- hooks + JSX ---
 const Counter: FC<{ label: string }> = ({ label }) => {

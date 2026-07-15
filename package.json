@@ -1,17 +1,17 @@
 {
-  "name": "danio",
+  "name": "danio-js",
   "version": "0.1.0",
   "description": "A fast, dependency-free frontend framework built from scratch: fiber reconciler, hooks, store, and router. If you know React, you know Danio.",
   "type": "module",
   "license": "MIT",
   "author": "Danio",
-  "homepage": "https://github.com/gagankarthik/danio#readme",
+  "homepage": "https://github.com/gagankarthik/danio-js#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gagankarthik/danio.git"
+    "url": "git+https://github.com/gagankarthik/danio-js.git"
   },
   "bugs": {
-    "url": "https://github.com/gagankarthik/danio/issues"
+    "url": "https://github.com/gagankarthik/danio-js/issues"
   },
   "keywords": [
     "framework",

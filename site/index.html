@@ -5,173 +5,283 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <meta name="theme-color" content="#1466E0" />
-<title>Danio — the tiny framework you can actually read</title>
-<meta name="description" content="Danio is a fast, friendly, dependency-free frontend framework — a virtual DOM, hooks, a store, a router, and SSR in about 8 kB. If you know React, you already know Danio." />
-<meta property="og:title" content="Danio — the tiny framework you can actually read" />
-<meta property="og:description" content="Fast, friendly, dependency-free. ~8 kB. If you know React, you already know Danio." />
+<title>Danio — the frontend framework you can actually read</title>
+<meta name="description" content="Danio is a fast, dependency-free frontend framework built from scratch — a virtual DOM, a fiber reconciler, hooks, a store, a router, and SSR in about 8 kB. If you know React, you already know Danio." />
+<meta property="og:title" content="Danio — the frontend framework you can actually read" />
+<meta property="og:description" content="Fast, dependency-free, ~8 kB. A whole framework in about 2,000 lines you can read in an afternoon. If you know React, you already know Danio." />
 <meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#f6f9ff;--bg-soft:#eef4ff;--card:#ffffff;--ink:#0f1b2d;--muted:#5a6b82;--faint:#8a99ad;--line:#e4ebf5;
-    --azure:#1466e0;--azure-600:#0e51bd;--azure-200:#bcd6ff;--azure-50:#eaf2ff;--amber:#f7a834;--amber-50:#fff4e2;--mint:#22b2a6;
-    --shadow-sm:0 1px 2px rgba(15,27,45,.06),0 2px 8px rgba(15,27,45,.05);
-    --shadow-md:0 6px 20px -6px rgba(20,60,140,.18),0 2px 6px rgba(15,27,45,.06);
-    --shadow-lg:0 24px 60px -22px rgba(20,60,140,.35);
-    --sans:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-    --mono:ui-monospace,'SF Mono','Cascadia Code','JetBrains Mono','Segoe UI Mono',Menlo,Consolas,monospace;
-    --maxw:1160px;--r:18px;
+    --ink:#0b1220;--ink-2:#33425a;--muted:#586a83;--faint:#8592a6;--line:#e7edf5;--line-2:#eef3f9;
+    --paper:#fbfcfe;--paper-2:#f2f6fd;--card:#ffffff;
+    --azure:#1466e0;--azure-ink:#0d3f8c;--azure-soft:#eaf2ff;--azure-line:#cfe0fb;
+    --amber:#c9820f;--amber-soft:#fdf3df;--good:#0f9d78;
+    --code-bg:#0b1220;--code-head:#111a2c;
+    --sh-sm:0 1px 2px rgba(13,32,66,.05),0 2px 6px rgba(13,32,66,.05);
+    --sh-md:0 4px 14px -6px rgba(13,45,110,.16),0 2px 5px rgba(13,32,66,.05);
+    --sh-lg:0 30px 60px -30px rgba(13,45,110,.34),0 8px 20px -12px rgba(13,32,66,.14);
+    --sans:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --disp:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,'SF Mono','Cascadia Code',Consolas,monospace;
+    --maxw:1120px;
   }
+  :root[data-theme="light"]{color-scheme:light}
   @media (prefers-color-scheme: dark){
-    :root{--bg:#0c1320;--bg-soft:#0f1a2b;--card:#121e30;--ink:#eaf1fb;--muted:#9fb0c6;--faint:#6d7f97;--line:#20304a;
-      --azure:#5ba0ff;--azure-600:#3f8bff;--azure-200:#274a76;--azure-50:#152540;--amber:#ffbd57;--amber-50:#2a2314;--mint:#3fd0c2;
-      --shadow-md:0 6px 20px -6px rgba(0,0,0,.5);--shadow-lg:0 24px 60px -22px rgba(0,0,0,.6);--shadow-sm:0 1px 2px rgba(0,0,0,.3);}
+    :root:not([data-theme="light"]){
+      --ink:#e9f0fa;--ink-2:#c2d0e2;--muted:#98abc4;--faint:#63758f;--line:#1b283b;--line-2:#16212f;
+      --paper:#070b12;--paper-2:#0c131e;--card:#0f1725;
+      --azure:#5ba0ff;--azure-ink:#9cc4ff;--azure-soft:#13243f;--azure-line:#22375a;
+      --amber:#f2b34a;--amber-soft:#241c0e;--good:#3ec7a0;
+      --code-bg:#0a111c;--code-head:#0e1725;
+      --sh-sm:0 1px 2px rgba(0,0,0,.4);--sh-md:0 6px 18px -8px rgba(0,0,0,.6);--sh-lg:0 30px 60px -28px rgba(0,0,0,.7);
+      color-scheme:dark;
+    }
   }
+  :root[data-theme="dark"]{
+    --ink:#e9f0fa;--ink-2:#c2d0e2;--muted:#98abc4;--faint:#63758f;--line:#1b283b;--line-2:#16212f;
+    --paper:#070b12;--paper-2:#0c131e;--card:#0f1725;
+    --azure:#5ba0ff;--azure-ink:#9cc4ff;--azure-soft:#13243f;--azure-line:#22375a;
+    --amber:#f2b34a;--amber-soft:#241c0e;--good:#3ec7a0;
+    --code-bg:#0a111c;--code-head:#0e1725;
+    --sh-sm:0 1px 2px rgba(0,0,0,.4);--sh-md:0 6px 18px -8px rgba(0,0,0,.6);--sh-lg:0 30px 60px -28px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:72px}
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
   img,svg{max-width:100%}
-  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,36px)}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--azure);background:var(--azure-50);border:1px solid var(--azure-200);padding:6px 13px;border-radius:100px}
+  ::selection{background:rgba(20,102,224,.18)}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
   .mono{font-family:var(--mono)}
 
-  .blobs{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-  .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
-  .blob.a{width:520px;height:520px;background:radial-gradient(circle,#bcd6ff,transparent 70%);top:-160px;right:-120px}
-  .blob.b{width:440px;height:440px;background:radial-gradient(circle,#ffe3b0,transparent 70%);top:280px;left:-160px;opacity:.42}
-  .blob.c{width:600px;height:600px;background:radial-gradient(circle,#c9f3ee,transparent 70%);bottom:-260px;right:-100px;opacity:.4}
-  @media (prefers-color-scheme: dark){.blob{opacity:.2}.blob.b{opacity:.14}.blob.c{opacity:.14}}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--azure-ink);background:var(--azure-soft);border:1px solid var(--azure-line);padding:6px 12px;border-radius:100px}
+  .eyebrow .tag{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--faint);text-transform:none;letter-spacing:0}
+  .kicker{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.02em;color:var(--azure-ink);text-transform:uppercase}
 
-  header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:saturate(1.6) blur(12px);border-bottom:1px solid var(--line)}
-  .nav-in{display:flex;align-items:center;gap:14px;height:64px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.02em}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:600;font-size:15px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1px solid transparent;transition:transform .13s ease,box-shadow .2s,background .15s,border-color .15s;white-space:nowrap}
+  .btn.primary{background:var(--azure);color:#fff;box-shadow:0 8px 20px -8px rgba(20,102,224,.7)}
+  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px -8px rgba(20,102,224,.85)}
+  .btn.ghost{background:var(--card);color:var(--ink);border-color:var(--line);box-shadow:var(--sh-sm)}
+  .btn.ghost:hover{transform:translateY(-2px);border-color:var(--azure-line);color:var(--azure-ink)}
+  .btn svg{width:16px;height:16px}
+
+  .cmd{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:10px 12px 10px 15px;box-shadow:var(--sh-sm);max-width:100%}
+  .cmd .p{color:var(--azure);font-weight:600;user-select:none}
+  .cmd .txt{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cmd .cp{cursor:pointer;color:var(--faint);border-left:1px solid var(--line);padding-left:11px;margin-left:2px;display:grid;place-items:center;transition:.15s;flex:none}
+  .cmd .cp:hover{color:var(--azure)}
+  .cmd .cp svg{width:15px;height:15px}
+
+  /* NAV */
+  header.nav{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--paper) 82%,transparent);backdrop-filter:saturate(1.7) blur(14px);border-bottom:1px solid transparent;transition:border-color .25s,background .25s}
+  header.nav.scrolled{border-bottom-color:var(--line)}
+  .nav-in{display:flex;align-items:center;gap:16px;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--ink)}
   .brand svg{width:30px;height:30px}
-  .nav-links{margin-left:auto;display:flex;align-items:center;gap:8px}
-  .nav-links a.n{padding:9px 14px;border-radius:10px;font-size:15px;font-weight:600;color:var(--muted);transition:.15s}
-  .nav-links a.n:hover{color:var(--ink);background:var(--bg-soft)}
-  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;border-radius:12px;padding:11px 18px;transition:transform .12s,box-shadow .2s,background .15s;cursor:pointer;border:0}
-  .btn.primary{background:var(--azure);color:#fff;box-shadow:0 6px 18px -6px rgba(20,102,224,.6)}
-  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px -6px rgba(20,102,224,.7)}
-  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
-  .btn.ghost:hover{transform:translateY(-2px);border-color:var(--azure-200)}
+  .brand .v{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--faint);background:var(--paper-2);border:1px solid var(--line);border-radius:6px;padding:2px 6px;letter-spacing:0;align-self:center}
+  .nav-links{margin-left:auto;display:flex;align-items:center;gap:4px}
+  .nav-links a.n{padding:8px 12px;border-radius:9px;font-size:14.5px;font-weight:500;color:var(--muted);transition:.15s}
+  .nav-links a.n:hover{color:var(--ink);background:var(--paper-2)}
+  .nav-links .sep{width:1px;height:22px;background:var(--line);margin:0 6px}
+  .icon-btn{display:grid;place-items:center;width:38px;height:38px;border-radius:9px;color:var(--muted);border:1px solid transparent;cursor:pointer;background:none;transition:.15s}
+  .icon-btn:hover{color:var(--ink);background:var(--paper-2)}
+  .icon-btn svg{width:18px;height:18px}
+  #themeBtn .moon{display:none}
+  :root[data-theme="dark"] #themeBtn .sun{display:none}
+  :root[data-theme="dark"] #themeBtn .moon{display:block}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #themeBtn .sun{display:none}:root:not([data-theme="light"]) #themeBtn .moon{display:block}}
   @media (max-width:860px){.nav-links a.n{display:none}}
 
-  .hero{position:relative;padding:clamp(44px,7vw,84px) 0 clamp(30px,5vw,54px)}
-  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,56px);align-items:center}
-  @media (max-width:920px){.hero-grid{grid-template-columns:1fr;gap:36px;text-align:center}}
-  h1{font-size:clamp(38px,6.4vw,66px);line-height:1.03;letter-spacing:-.03em;font-weight:820;margin:20px 0 0;text-wrap:balance}
-  h1 .grad{background:linear-gradient(120deg,var(--azure),#3aa0ff 60%,var(--mint));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .sub{font-size:clamp(17px,2.1vw,20px);color:var(--muted);margin:22px 0 0;max-width:36ch;line-height:1.55}
-  @media (max-width:920px){.sub{margin-left:auto;margin-right:auto}}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
-  @media (max-width:920px){.hero-cta{justify-content:center}}
-  .cmd{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 15px;box-shadow:var(--shadow-sm);max-width:100%;overflow:hidden}
-  .cmd .p{color:var(--azure);font-weight:600}
-  .cmd .cp{cursor:pointer;color:var(--faint);border-left:1px solid var(--line);padding-left:11px;font-size:12px;font-weight:600;transition:.15s;flex:none}
-  .cmd .cp:hover{color:var(--azure)}
-  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
-  @media (max-width:920px){.chips{justify-content:center}}
-  .chip{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:100px;padding:7px 13px;box-shadow:var(--shadow-sm)}
-  .chip b{color:var(--ink)}
-  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--mint)}
+  /* HERO */
+  .hero{position:relative;padding:clamp(48px,7vw,92px) 0 clamp(40px,5vw,64px);overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:
+    radial-gradient(680px 440px at 88% -8%,rgba(20,102,224,.10),transparent 70%),
+    radial-gradient(520px 360px at 4% 8%,rgba(201,130,15,.06),transparent 70%)}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero::before{background:radial-gradient(680px 440px at 88% -8%,rgba(91,160,255,.14),transparent 70%),radial-gradient(520px 360px at 4% 8%,rgba(242,179,74,.06),transparent 70%)}}
+  .grid-lines{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(var(--line-2) 1px,transparent 1px),linear-gradient(90deg,var(--line-2) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(600px 400px at 78% 10%,#000,transparent 75%);mask-image:radial-gradient(600px 400px at 78% 10%,#000,transparent 75%);opacity:.6}
+  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(30px,4.5vw,60px);align-items:center}
+  @media (max-width:940px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+  h1{font-family:var(--disp);font-size:clamp(40px,6.6vw,66px);line-height:1.03;letter-spacing:-.035em;font-weight:800;margin:22px 0 0;text-wrap:balance}
+  h1 .u{position:relative;white-space:nowrap}
+  h1 .u::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.13em;background:linear-gradient(90deg,var(--azure),var(--amber));border-radius:3px;opacity:.9}
+  .sub{font-size:clamp(17px,2vw,20px);color:var(--muted);margin:24px 0 0;max-width:44ch;line-height:1.55}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:13px;margin-top:32px;align-items:center}
+  .facts{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:34px;padding-top:26px;border-top:1px solid var(--line)}
+  .fact{display:flex;flex-direction:column;gap:1px}
+  .fact b{font-family:var(--disp);font-weight:800;font-size:21px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .fact span{font-size:12.5px;color:var(--faint);font-weight:500}
 
-  .aquarium{position:relative;border-radius:26px;padding:26px;background:linear-gradient(165deg,#eaf3ff,#f7fbff 55%,#fff);border:1px solid var(--line);box-shadow:var(--shadow-lg);overflow:hidden;min-height:340px}
-  @media (prefers-color-scheme: dark){.aquarium{background:linear-gradient(165deg,#152945,#0f1a2b)}}
-  .swim{position:absolute;top:38px;left:6%;width:120px;animation:swim 9s ease-in-out infinite}
-  .swim.two{top:150px;left:52%;width:70px;opacity:.85;animation-duration:11s;animation-delay:-3s}
-  .swim.three{top:250px;left:20%;width:52px;opacity:.7;animation-duration:13s;animation-delay:-6s}
-  @keyframes swim{0%{transform:translate(0,0) rotate(-1deg)}25%{transform:translate(22px,-14px) rotate(1.5deg)}50%{transform:translate(44px,4px) rotate(-1deg)}75%{transform:translate(18px,16px) rotate(1deg)}100%{transform:translate(0,0) rotate(-1deg)}}
-  .bubble{position:absolute;bottom:-20px;border-radius:50%;background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.95),rgba(188,214,255,.35));border:1px solid rgba(188,214,255,.6);animation:rise linear infinite}
-  @keyframes rise{0%{transform:translateY(0) scale(.8);opacity:0}12%{opacity:.9}100%{transform:translateY(-360px) scale(1.1);opacity:0}}
-  .demo{position:absolute;right:20px;bottom:20px;left:20px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-md);padding:16px 18px;display:flex;align-items:center;gap:14px}
-  .demo .lbl{font-family:var(--mono);font-size:12px;color:var(--faint)}
-  .demo .count{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-  .demo button{margin-left:auto;border:0;background:var(--azure);color:#fff;font-weight:700;font-size:14px;padding:10px 16px;border-radius:11px;cursor:pointer;box-shadow:0 6px 16px -6px rgba(20,102,224,.6);transition:transform .1s}
-  .demo button:active{transform:scale(.94)}
-  @media (prefers-reduced-motion:reduce){.swim,.bubble{animation:none}}
+  /* code window */
+  .win{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--sh-lg);background:var(--code-bg);min-width:0}
+  .win .bar{display:flex;align-items:center;gap:7px;padding:11px 15px;background:var(--code-head);border-bottom:1px solid rgba(255,255,255,.07)}
+  .win .bar i{width:11px;height:11px;border-radius:50%;display:block;opacity:.9}
+  .win .bar .fn{margin-left:9px;font-family:var(--mono);font-size:12px;color:#8496b1}
+  .win pre{margin:0;padding:18px 20px;overflow-x:auto}
+  .win code{font-family:var(--mono);font-size:13.5px;line-height:1.72;color:#c6d3e6;white-space:pre;display:block}
+  .k{color:#ff9ecb}.f{color:#82c7ff}.s{color:#8ce3ad}.c{color:#5f748f;font-style:italic}.n{color:#ffc26b}.t{color:#93d3ff}.pn{color:#93a4bd}
+  .win .out{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--code-head);border-top:1px solid rgba(255,255,255,.07)}
+  .win .out .lbl{font-family:var(--mono);font-size:11px;color:#7f92ae;text-transform:uppercase;letter-spacing:.06em}
+  .win .out .res{font-family:var(--sans);font-size:15px;color:#dbe6f4;font-weight:500}
+  .win .out .res b{font-family:var(--disp);font-weight:800;font-variant-numeric:tabular-nums;color:#fff}
+  .win .out button{margin-left:auto;border:0;background:var(--azure);color:#fff;font-family:var(--sans);font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px;cursor:pointer;transition:transform .1s,filter .15s}
+  .win .out button:hover{filter:brightness(1.08)}
+  .win .out button:active{transform:scale(.95)}
 
-  section{padding:clamp(48px,7vw,88px) 0}
-  .head{text-align:center;max-width:640px;margin:0 auto 46px}
-  h2{font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.025em;font-weight:800;margin:12px 0 0;text-wrap:balance}
-  .head p{color:var(--muted);font-size:clamp(16px,2vw,18.5px);margin:14px 0 0}
+  /* trust strip */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper-2)}
+  .strip-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 30px;padding:20px 0}
+  .strip .s{display:inline-flex;align-items:center;gap:9px;font-size:14.5px;color:var(--muted);font-weight:500}
+  .strip .s svg{width:17px;height:17px;color:var(--good);flex:none}
+  .strip .s b{color:var(--ink);font-weight:600}
+  .strip .dv{width:1px;height:18px;background:var(--line)}
+  @media (max-width:640px){.strip .dv{display:none}}
 
-  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  /* section scaffold */
+  section{padding:clamp(56px,8vw,104px) 0}
+  .lead{max-width:660px;margin-bottom:44px}
+  .lead.mid{margin-left:auto;margin-right:auto;text-align:center}
+  h2{font-family:var(--disp);font-size:clamp(28px,4vw,42px);line-height:1.08;letter-spacing:-.03em;font-weight:800;margin:14px 0 0;text-wrap:balance}
+  .lead p{color:var(--muted);font-size:clamp(16px,1.9vw,18.5px);margin:14px 0 0;line-height:1.55}
+
+  /* features */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   @media (max-width:860px){.features{grid-template-columns:1fr 1fr}}
-  @media (max-width:560px){.features{grid-template-columns:1fr}}
-  .feat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s;min-width:0}
-  .feat:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
-  .feat .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;margin-bottom:16px;font-size:20px}
-  .feat .ic.blue{background:var(--azure-50);color:var(--azure)}
-  .feat .ic.amber{background:var(--amber-50);color:var(--amber)}
-  .feat .ic.mint{background:#e2f7f4;color:var(--mint)}
-  @media (prefers-color-scheme: dark){.feat .ic.mint{background:#123}}
-  .feat h3{margin:0;font-size:19px;font-weight:750;letter-spacing:-.01em}
-  .feat p{margin:9px 0 0;color:var(--muted);font-size:15.5px}
-  .feat code{font-family:var(--mono);font-size:13px;background:var(--bg-soft);padding:1px 6px;border-radius:6px}
+  @media (max-width:540px){.features{grid-template-columns:1fr}}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 24px;box-shadow:var(--sh-sm);transition:transform .18s,box-shadow .18s,border-color .18s;min-width:0}
+  .feat:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:var(--azure-line)}
+  .feat .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:var(--azure-soft);color:var(--azure);border:1px solid var(--azure-line);margin-bottom:18px}
+  .feat .ic svg{width:22px;height:22px}
+  .feat h3{font-family:var(--disp);margin:0;font-size:18.5px;font-weight:700;letter-spacing:-.01em}
+  .feat p{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.55}
+  .feat p code,.faq code{font-family:var(--mono);font-size:12.5px;background:var(--paper-2);border:1px solid var(--line);padding:1px 5px;border-radius:5px;color:var(--azure-ink)}
 
-  .show{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,50px);align-items:center}
-  @media (max-width:860px){.show{grid-template-columns:1fr;gap:28px}}
-  .codecard{border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-md);background:#0f1626;min-width:0}
-  .codecard .bar{display:flex;align-items:center;gap:7px;padding:12px 15px;background:#141d30;border-bottom:1px solid rgba(255,255,255,.06)}
-  .codecard .bar i{width:11px;height:11px;border-radius:50%;display:block}
-  .codecard .bar .f{margin-left:8px;font-family:var(--mono);font-size:12px;color:#7f8fa8}
-  .codecard pre{margin:0;padding:18px;overflow-x:auto}
-  .codecard code{font-family:var(--mono);font-size:13.5px;line-height:1.75;color:#cdd9ea}
-  .k{color:#ff8ac6}.f{color:#7cc5ff}.s{color:#83e0a5}.c{color:#5c7089;font-style:italic}.n{color:#ffbd57}.t{color:#8fd0ff}.pn{color:#93a4bd}
-  .show-copy h2{text-align:left;margin-top:8px}
-  .show ul{list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:12px}
-  .show li{display:flex;gap:12px;align-items:flex-start;font-size:16px;color:var(--muted)}
-  .show li b{color:var(--ink);font-weight:650}
-  .show li .ck{flex:none;width:22px;height:22px;border-radius:7px;background:var(--azure-50);color:var(--azure);display:grid;place-items:center;font-size:13px;font-weight:800;margin-top:1px}
+  /* tinted section */
+  .tint{border-top:1px solid var(--line);background:var(--paper-2)}
 
-  .inc{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-  @media (max-width:860px){.inc{grid-template-columns:1fr 1fr}}
-  @media (max-width:460px){.inc{grid-template-columns:1fr}}
-  .inc .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow-sm);min-width:0}
-  .inc .box .t{font-weight:750;font-size:15px;display:flex;align-items:center;gap:8px}
-  .inc .box .t .d{width:8px;height:8px;border-radius:50%;background:var(--azure)}
-  .inc .box p{margin:8px 0 0;color:var(--muted);font-size:13.5px;font-family:var(--mono);line-height:1.6}
+  /* source thesis */
+  .src-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:clamp(28px,4vw,56px);align-items:center}
+  @media (max-width:900px){.src-grid{grid-template-columns:1fr;gap:30px}}
+  .src-grid .win code{font-size:12.8px;line-height:1.7}
+  .src-note{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+  .src-note svg{width:15px;height:15px;color:var(--azure)}
 
-  .cmp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm);background:var(--card)}
-  table.cmp{width:100%;border-collapse:collapse;font-size:15px;min-width:600px}
+  /* tabbed showcase */
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+  .tab{font-family:var(--sans);font-size:14.5px;font-weight:600;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 16px;cursor:pointer;transition:.15s}
+  .tab:hover{color:var(--ink);border-color:var(--azure-line)}
+  .tab.on{background:var(--azure);color:#fff;border-color:var(--azure)}
+  .panes{position:relative}
+  .pane{display:none}
+  .pane.on{display:block}
+  .showcase{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,3.5vw,44px);align-items:center}
+  @media (max-width:880px){.showcase{grid-template-columns:1fr;gap:26px}}
+  .showcase .desc h3{font-family:var(--disp);font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0}
+  .showcase .desc p{color:var(--muted);font-size:16px;margin:12px 0 0;line-height:1.6}
+  .showcase .desc ul{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:10px}
+  .showcase .desc li{display:flex;gap:10px;font-size:15px;color:var(--ink-2)}
+  .showcase .desc li svg{width:18px;height:18px;color:var(--azure);flex:none;margin-top:2px}
+  .showcase .desc li b{color:var(--ink);font-weight:600}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:st}
+  @media (max-width:820px){.steps{grid-template-columns:1fr}}
+  .step{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 24px;box-shadow:var(--sh-sm)}
+  .step .num{counter-increment:st;font-family:var(--disp);font-weight:800;font-size:14px;width:30px;height:30px;border-radius:9px;background:var(--azure-soft);color:var(--azure-ink);border:1px solid var(--azure-line);display:grid;place-items:center}
+  .step .num::before{content:counter(st)}
+  .step h3{font-family:var(--disp);font-size:18px;font-weight:700;letter-spacing:-.01em;margin:16px 0 0}
+  .step p{color:var(--muted);font-size:14.5px;margin:8px 0 0}
+  .step .code{margin-top:16px;background:var(--code-bg);border-radius:10px;padding:12px 14px;overflow-x:auto}
+  .step .code code{font-family:var(--mono);font-size:12.5px;color:#c6d3e6;white-space:pre;line-height:1.7;display:block}
+
+  /* included */
+  .inc{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media (max-width:820px){.inc{grid-template-columns:1fr 1fr}}
+  @media (max-width:440px){.inc{grid-template-columns:1fr}}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 18px 16px;box-shadow:var(--sh-sm);min-width:0}
+  .box .t{font-family:var(--disp);font-weight:700;font-size:15.5px;display:flex;align-items:center;gap:8px;letter-spacing:-.01em}
+  .box .t .d{width:7px;height:7px;border-radius:2px;background:var(--azure);flex:none}
+  .box p{margin:9px 0 0;color:var(--muted);font-size:12.5px;font-family:var(--mono);line-height:1.7}
+
+  /* comparison */
+  .cmp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh-sm);background:var(--card)}
+  table.cmp{width:100%;border-collapse:collapse;font-size:15px;min-width:640px}
   table.cmp th,table.cmp td{padding:15px 18px;text-align:left;border-bottom:1px solid var(--line)}
-  table.cmp thead th{font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);font-weight:700}
+  table.cmp thead th{font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);font-weight:600}
+  table.cmp thead th.cd{color:var(--azure-ink)}
   table.cmp tbody tr:last-child td{border-bottom:0}
-  table.cmp td.feat{font-weight:650}
-  table.cmp .yes{color:var(--azure);font-weight:750}
+  table.cmp td.ft{font-weight:600;color:var(--ink)}
+  table.cmp .yes{color:var(--azure);font-weight:700}
   table.cmp .no{color:var(--faint)}
-  table.cmp .cd{background:var(--azure-50)}
-  table.cmp thead th.cd{background:color-mix(in srgb,var(--azure) 14%,var(--azure-50));color:var(--azure-600)}
+  table.cmp td.cd,table.cmp th.cd{background:var(--azure-soft)}
+  table.cmp .yes.g{color:var(--good)}
 
-  .cta{position:relative;border-radius:28px;padding:clamp(34px,6vw,64px);text-align:center;overflow:hidden;background:linear-gradient(135deg,var(--azure),#1f7ff0 45%,#12b8a6);color:#fff;box-shadow:var(--shadow-lg)}
-  .cta h2{color:#fff}
-  .cta p{color:rgba(255,255,255,.9);max-width:52ch;margin:14px auto 0;font-size:17.5px}
-  .cta .row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:30px}
-  .cta .cmd{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);color:#fff}
-  .cta .cmd .p{color:#cfe6ff}.cta .cmd .cp{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.28)}
-  .cta .btn.white{background:#fff;color:var(--azure-600)}
-  .cta .bub{position:absolute;border-radius:50%;background:rgba(255,255,255,.12);pointer-events:none}
+  /* fit / doesn't fit */
+  .fit{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:760px){.fit{grid-template-columns:1fr}}
+  .panel{border:1px solid var(--line);border-radius:18px;padding:30px 28px;background:var(--card);box-shadow:var(--sh-sm)}
+  .panel.pick{border-color:var(--azure-line);background:linear-gradient(180deg,var(--azure-soft),var(--card) 62%)}
+  .panel h3{font-family:var(--disp);margin:0 0 4px;font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px;letter-spacing:-.01em}
+  .panel h3 .p{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none}
+  .panel.pick h3 .p{background:var(--azure);color:#fff}
+  .panel.skip h3 .p{background:var(--paper-2);color:var(--faint);border:1px solid var(--line)}
+  .panel .sub2{color:var(--muted);font-size:14.5px;margin:0 0 18px}
+  .panel ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:13px}
+  .panel li{display:flex;gap:11px;font-size:15.5px;line-height:1.5;color:var(--ink-2)}
+  .panel li svg{width:19px;height:19px;flex:none;margin-top:2px}
+  .panel.pick li svg{color:var(--azure)}
+  .panel.skip li svg{color:var(--faint)}
+  .panel li b{color:var(--ink);font-weight:600}
 
-  footer{border-top:1px solid var(--line);padding:52px 0 46px;margin-top:20px}
-  .foot{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:28px}
+  /* FAQ */
+  .faq{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  .faq details{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh-sm);overflow:hidden}
+  .faq summary{cursor:pointer;list-style:none;padding:20px 22px;font-family:var(--disp);font-weight:700;font-size:17px;letter-spacing:-.01em;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary .pl{flex:none;width:22px;height:22px;position:relative;transition:transform .2s}
+  .faq summary .pl::before,.faq summary .pl::after{content:"";position:absolute;background:var(--azure);border-radius:2px}
+  .faq summary .pl::before{top:10px;left:3px;right:3px;height:2px}
+  .faq summary .pl::after{left:10px;top:3px;bottom:3px;width:2px;transition:opacity .2s}
+  .faq details[open] summary .pl::after{opacity:0}
+  .faq details[open] summary .pl{transform:rotate(180deg)}
+  .faq .a{padding:0 22px 20px;color:var(--muted);font-size:15.5px;line-height:1.62}
+  .faq .a a{color:var(--azure);font-weight:600}
+
+  /* CTA */
+  .cta{position:relative;border-radius:24px;padding:clamp(38px,6vw,68px) clamp(24px,5vw,56px);text-align:center;overflow:hidden;background:radial-gradient(120% 140% at 0% 0%,#1f7ff0,#1466e0 42%,#0e3f8c);color:#fff;box-shadow:var(--sh-lg)}
+  .cta::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:38px 38px;-webkit-mask-image:radial-gradient(80% 80% at 80% 0%,#000,transparent 70%);mask-image:radial-gradient(80% 80% at 80% 0%,#000,transparent 70%);opacity:.5}
+  .cta h2{color:#fff;position:relative}
+  .cta p{color:rgba(255,255,255,.9);max-width:50ch;margin:14px auto 0;font-size:17.5px;position:relative}
+  .cta .row{display:flex;flex-wrap:wrap;gap:13px;justify-content:center;margin-top:30px;position:relative}
+  .cta .cmd{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.26)}
+  .cta .cmd .p{color:#bcdcff}.cta .cmd .txt{color:#fff}.cta .cmd .cp{color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.26)}
+  .cta .btn.white{background:#fff;color:var(--azure-ink)}
+  .cta .btn.white:hover{box-shadow:0 12px 26px -8px rgba(0,0,0,.35)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:56px 0 44px}
+  .foot{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px}
   @media (max-width:760px){.foot{grid-template-columns:1fr 1fr}}
-  @media (max-width:460px){.foot{grid-template-columns:1fr}}
-  .foot .tag{color:var(--muted);font-size:14.5px;margin-top:12px;max-width:30ch}
-  .foot h5{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);margin:2px 0 14px}
-  .foot a.l{display:block;color:var(--muted);padding:5px 0;font-size:15px;transition:.15s}
+  .foot .tag{color:var(--muted);font-size:14.5px;margin-top:14px;max-width:32ch;line-height:1.55}
+  .foot h5{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin:2px 0 14px;font-weight:600}
+  .foot a.l{display:block;color:var(--muted);padding:5px 0;font-size:14.5px;transition:.15s}
   .foot a.l:hover{color:var(--azure)}
-  .foot-bottom{border-top:1px solid var(--line);margin-top:40px;padding-top:22px;display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-between;color:var(--faint);font-size:13.5px}
+  .foot-bottom{border-top:1px solid var(--line);margin-top:44px;padding-top:22px;display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-between;align-items:center;color:var(--faint);font-size:13.5px}
+  .foot-bottom .mono{font-size:13px}
 
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
 
-<div class="blobs"><span class="blob a"></span><span class="blob b"></span><span class="blob c"></span></div>
-
+<!-- brand fish mark -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f81f2"/><stop offset="1" stop-color="#0e4eaf"/></linearGradient>
   <clipPath id="fc"><path d="M104 48 C92 30 58 26 30 32 C22 38 22 58 30 64 C58 70 92 66 104 48 Z"/></clipPath>
@@ -185,15 +295,23 @@
   </g>
 </defs></svg>
 
-<header class="nav">
+<header class="nav" id="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="#top"><svg viewBox="0 0 128 96"><use href="#fish"/></svg> Danio</a>
+    <a class="brand" href="#top"><svg viewBox="0 0 128 96"><use href="#fish"/></svg> Danio <span class="v">v0.1.0</span></a>
     <nav class="nav-links">
       <a class="n" href="#features">Features</a>
-      <a class="n" href="#code">Code</a>
+      <a class="n" href="#showcase">Examples</a>
+      <a class="n" href="#source">Source</a>
       <a class="n" href="#compare">Compare</a>
       <a class="n" href="docs.html">Docs</a>
-      <a class="btn ghost" href="https://github.com/gagankarthik/danio" style="margin-left:6px">GitHub</a>
+      <span class="sep"></span>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle color theme" title="Toggle theme">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/gagankarthik/danio-js" aria-label="GitHub repository" title="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5a10.5 10.5 0 0 0-3.32 20.46c.53.1.72-.23.72-.5v-1.76c-2.92.63-3.54-1.4-3.54-1.4-.48-1.22-1.17-1.55-1.17-1.55-.96-.65.07-.64.07-.64 1.06.08 1.62 1.09 1.62 1.09.94 1.62 2.47 1.15 3.07.88.1-.68.37-1.15.67-1.42-2.33-.27-4.78-1.17-4.78-5.19 0-1.15.41-2.08 1.09-2.82-.11-.27-.47-1.34.1-2.79 0 0 .88-.28 2.88 1.08a10 10 0 0 1 5.24 0c2-1.36 2.88-1.08 2.88-1.08.57 1.45.21 2.52.1 2.79.68.74 1.09 1.67 1.09 2.82 0 4.03-2.46 4.92-4.8 5.18.38.33.71.97.71 1.96v2.9c0 .28.19.61.72.5A10.5 10.5 0 0 0 12 1.5Z"/></svg>
+      </a>
       <a class="btn primary" href="docs.html#get-started">Get started</a>
     </nav>
   </div>
@@ -201,72 +319,29 @@
 
 <a id="top"></a>
 <section class="hero">
+  <div class="grid-lines"></div>
   <div class="wrap hero-grid">
     <div class="reveal">
-      <span class="eyebrow">🐟 &nbsp;A frontend framework, built from scratch</span>
-      <h1>The tiny framework<br>you can <span class="grad">actually read.</span></h1>
-      <p class="sub">Danio gives you components, hooks, a store, a router, and server rendering — in about 8 kB with zero dependencies. If you know React, you already know Danio.</p>
+      <span class="eyebrow">A framework built from scratch <span class="tag">~2,000 LOC</span></span>
+      <h1>The frontend framework you can <span class="u">actually read.</span></h1>
+      <p class="sub">Danio is a fast, dependency-free framework — a virtual DOM, a fiber reconciler, hooks, a store, a router, and SSR in about 8&nbsp;kB. If you know React, you already know Danio.</p>
       <div class="hero-cta">
-        <a class="btn primary" href="docs.html#get-started">Read the docs →</a>
-        <span class="cmd"><span class="p">$</span> npm create danio@latest <span class="cp" data-copy="npm create danio@latest">Copy</span></span>
+        <a class="btn primary" href="docs.html#get-started">Get started
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <span class="cmd"><span class="p">$</span><span class="txt">npm create danio@latest</span><span class="cp" data-copy="npm create danio@latest" aria-label="Copy command"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span></span>
       </div>
-      <div class="chips">
-        <span class="chip"><span class="dot"></span> <b>8 kB</b> gzipped</span>
-        <span class="chip"><span class="dot"></span> <b>0</b> dependencies</span>
-        <span class="chip"><span class="dot"></span> <b>54</b> tests</span>
-        <span class="chip"><span class="dot"></span> <b>MIT</b></span>
+      <div class="facts">
+        <div class="fact"><b>~8 kB</b><span>gzipped core</span></div>
+        <div class="fact"><b>0</b><span>dependencies</span></div>
+        <div class="fact"><b>54</b><span>passing tests</span></div>
+        <div class="fact"><b>MIT</b><span>open source</span></div>
       </div>
     </div>
 
-    <div class="aquarium reveal" id="tank">
-      <svg class="swim" viewBox="0 0 128 96"><use href="#fish"/></svg>
-      <svg class="swim two" viewBox="0 0 128 96"><use href="#fish"/></svg>
-      <svg class="swim three" viewBox="0 0 128 96"><use href="#fish"/></svg>
-      <div class="demo">
-        <div>
-          <div class="lbl">// live demo</div>
-          <div class="count"><span id="c">0</span> <span style="font-size:15px;font-weight:600;color:var(--muted)">clicks</span></div>
-        </div>
-        <button id="clk" aria-label="increment counter">Click me</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="features">
-  <div class="wrap">
-    <div class="head reveal">
-      <span class="eyebrow">Why teams pick Danio</span>
-      <h2>Small, familiar, and honest.</h2>
-      <p>Everything you need to build a real app — and nothing you have to take on faith.</p>
-    </div>
-    <div class="features">
-      <div class="feat reveal"><div class="ic blue">◆</div><h3>Tiny &amp; dependency-free</h3><p>The whole engine — VDOM, reconciler, hooks, store, router — gzips to ~8 kB and pulls in nothing else.</p></div>
-      <div class="feat reveal"><div class="ic amber">★</div><h3>Instantly familiar</h3><p>Components, JSX, <code>useState</code>, <code>useEffect</code>, context, a Redux-style store. Nothing new to learn.</p></div>
-      <div class="feat reveal"><div class="ic mint">❤</div><h3>Actually readable</h3><p>Every file is plain, commented JavaScript. Open <code>node_modules/danio/src</code> — the framework is right there.</p></div>
-      <div class="feat reveal"><div class="ic blue">⚡</div><h3>Fast by default</h3><p>Bailouts mean a <code>setState</code> re-renders one component, not the tree — ~200× faster updates on a 500-row bench.</p></div>
-      <div class="feat reveal"><div class="ic amber">⌘</div><h3>Batteries included</h3><p>Store with middleware, a History-API router, error boundaries, <code>memo</code>, and SSR — all in the box.</p></div>
-      <div class="feat reveal"><div class="ic mint">◧</div><h3>SSR + hydration</h3><p>Render to HTML on the server for SEO and first paint, then hydrate the exact same nodes on the client.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="code">
-  <div class="wrap show">
-    <div class="show-copy reveal">
-      <span class="eyebrow">This is the whole app</span>
-      <h2>Write it the way you already think.</h2>
-      <ul>
-        <li><span class="ck">✓</span><span>A component is just a function that returns markup.</span></li>
-        <li><span class="ck">✓</span><span><b>useState</b> gives it memory; the setter re-renders it.</span></li>
-        <li><span class="ck">✓</span><span>No providers, no config, no boilerplate to boot up.</span></li>
-        <li><span class="ck">✓</span><span>Ships with <b>TypeScript types</b> and works with Tailwind or any CSS.</span></li>
-      </ul>
-      <div style="margin-top:26px"><a class="btn primary" href="docs.html#get-started">Full documentation →</a></div>
-    </div>
-    <div class="codecard reveal">
-      <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="f">Counter.jsx</span></div>
-<pre><code><span class="k">import</span> <span class="pn">{</span> render<span class="pn">,</span> useState <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+    <div class="win reveal">
+      <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="fn">Counter.jsx</span></div>
+<pre><code><span class="k">import</span> <span class="pn">{</span> render<span class="pn">,</span> useState <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 
 <span class="k">function</span> <span class="f">Counter</span><span class="pn">() {</span>
   <span class="k">const</span> <span class="pn">[</span>n<span class="pn">,</span> setN<span class="pn">] =</span> <span class="f">useState</span><span class="pn">(</span><span class="n">0</span><span class="pn">)</span>
@@ -277,17 +352,257 @@
   <span class="pn">)</span>
 <span class="pn">}</span>
 
-<span class="f">render</span><span class="pn">(&lt;</span><span class="t">Counter</span> <span class="pn">/&gt;,</span> <span class="f">document</span><span class="pn">.</span><span class="f">getElementById</span><span class="pn">(</span><span class="s">'root'</span><span class="pn">))</span>
-<span class="c">// that's the whole app.</span></code></pre>
+<span class="f">render</span><span class="pn">(&lt;</span><span class="t">Counter</span> <span class="pn">/&gt;,</span> root<span class="pn">)</span></code></pre>
+      <div class="out">
+        <span class="lbl">Live</span>
+        <span class="res">clicked <b id="c">0</b> times</span>
+        <button id="clk" aria-label="Run the counter">clicked <span id="c2">0</span> times</button>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
+<div class="strip">
+  <div class="wrap strip-in">
+    <span class="s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> <b>~8 kB</b> gzipped, zero deps</span>
+    <span class="dv"></span>
+    <span class="s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Fiber reconciler with bailouts</span>
+    <span class="dv"></span>
+    <span class="s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> SSR + hydration</span>
+    <span class="dv"></span>
+    <span class="s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> TypeScript types included</span>
+  </div>
+</div>
+
+<section id="features">
   <div class="wrap">
-    <div class="head reveal">
-      <span class="eyebrow">One import, everything included</span>
+    <div class="lead reveal">
+      <span class="kicker">Why Danio</span>
+      <h2>A whole framework, and nothing you take on faith.</h2>
+      <p>Everything you reach for to build a real app — small enough to read, familiar enough to skip the manual.</p>
+    </div>
+    <div class="features">
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><path d="M3 12l9 4.5L21 12M3 16.5 12 21l9-4.5"/></svg></div>
+        <h3>Tiny &amp; dependency-free</h3>
+        <p>The whole engine — VDOM, reconciler, hooks, store, router — gzips to ~8 kB and pulls in nothing else.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div>
+        <h3>Instantly familiar</h3>
+        <p>Components, JSX, <code>useState</code>, <code>useEffect</code>, context, a Redux-style store. Nothing new to learn.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-5 6 5 6M16 6l5 6-5 6"/></svg></div>
+        <h3>Actually readable</h3>
+        <p>Every file is plain, commented JavaScript. Open <code>node_modules/danio-js/src</code> and the framework is right there.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg></div>
+        <h3>Fast by default</h3>
+        <p>Bailouts mean a <code>setState</code> re-renders one component, not the tree — ~200× faster updates on a 500-row bench.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></div>
+        <h3>Batteries included</h3>
+        <p>A store with middleware, a History-API router, error boundaries, <code>memo</code>, and SSR — all in the box.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="m8 14 2 2 4-4"/></svg></div>
+        <h3>SSR + hydration</h3>
+        <p>Render to HTML on the server for SEO and first paint, then hydrate the exact same nodes on the client.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tint" id="showcase">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="kicker">See it in code</span>
+      <h2>The same API you already reach for.</h2>
+      <p>State, a store, routing, and server rendering — each is a few lines, and each is exactly what you'd expect.</p>
+    </div>
+
+    <div class="tabs reveal" role="tablist">
+      <button class="tab on" data-tab="state" role="tab">State</button>
+      <button class="tab" data-tab="store" role="tab">Store</button>
+      <button class="tab" data-tab="router" role="tab">Router</button>
+      <button class="tab" data-tab="server" role="tab">Server</button>
+    </div>
+
+    <div class="panes reveal">
+      <!-- STATE -->
+      <div class="pane on showcase" data-pane="state">
+        <div class="win">
+          <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="fn">TodoList.jsx</span></div>
+<pre><code><span class="k">import</span> <span class="pn">{</span> useState <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
+
+<span class="k">function</span> <span class="f">TodoList</span><span class="pn">() {</span>
+  <span class="k">const</span> [items, setItems] = <span class="f">useState</span>([])
+  <span class="k">const</span> [text, setText] = <span class="f">useState</span>(<span class="s">''</span>)
+
+  <span class="k">return</span> (
+    &lt;<span class="t">form</span> onSubmit={(e) =&gt; {
+      e.<span class="f">preventDefault</span>()
+      <span class="f">setItems</span>([...items, text])
+      <span class="f">setText</span>(<span class="s">''</span>)
+    }}&gt;
+      &lt;<span class="t">input</span> value={text}
+        onInput={(e) =&gt; <span class="f">setText</span>(e.target.value)} /&gt;
+      &lt;<span class="t">ul</span>&gt;{items.<span class="f">map</span>((t) =&gt; &lt;<span class="t">li</span>&gt;{t}&lt;/<span class="t">li</span>&gt;)}&lt;/<span class="t">ul</span>&gt;
+    &lt;/<span class="t">form</span>&gt;
+  )
+}</code></pre>
+        </div>
+        <div class="desc">
+          <h3>State that reads like a checklist</h3>
+          <p>Hooks work exactly as you remember. <code>useState</code> gives a component memory; the setter schedules a precise re-render of just that component.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>useState, useReducer, useRef</b> — the full set.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>useEffect &amp; useLayoutEffect</b> for side effects.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>useMemo &amp; useCallback</b> when you need them.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STORE -->
+      <div class="pane showcase" data-pane="store">
+        <div class="win">
+          <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="fn">store.js</span></div>
+<pre><code><span class="k">import</span> <span class="pn">{</span> createStore, applyMiddleware, thunk <span class="pn">}</span>
+  <span class="k">from</span> <span class="s">'danio-js'</span>
+
+<span class="k">function</span> <span class="f">counter</span>(state = { n: <span class="n">0</span> }, action) {
+  <span class="k">switch</span> (action.type) {
+    <span class="k">case</span> <span class="s">'inc'</span>: <span class="k">return</span> { n: state.n + <span class="n">1</span> }
+    <span class="k">default</span>:    <span class="k">return</span> state
+  }
+}
+
+<span class="k">export const</span> store = <span class="f">createStore</span>(
+  counter,
+  <span class="f">applyMiddleware</span>(thunk)
+)</code></pre>
+        </div>
+        <div class="desc">
+          <h3>A Redux-style store, in the box</h3>
+          <p>A predictable store with middleware, thunks, and a logger — plus <code>useSelector</code> and <code>useDispatch</code> bindings. No extra package to install.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>createStore &amp; combineReducers</b>.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>applyMiddleware</b> with <code>thunk</code> and <code>logger</code>.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>useSelector</b> re-renders only on real change.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ROUTER -->
+      <div class="pane showcase" data-pane="router">
+        <div class="win">
+          <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="fn">App.jsx</span></div>
+<pre><code><span class="k">import</span> <span class="pn">{</span> Router, Routes, Route, Link <span class="pn">}</span>
+  <span class="k">from</span> <span class="s">'danio-js'</span>
+
+<span class="k">function</span> <span class="f">App</span>() {
+  <span class="k">return</span> (
+    &lt;<span class="t">Router</span>&gt;
+      &lt;<span class="t">nav</span>&gt;
+        &lt;<span class="t">Link</span> to=<span class="s">"/"</span>&gt;Home&lt;/<span class="t">Link</span>&gt;
+        &lt;<span class="t">Link</span> to=<span class="s">"/todos"</span>&gt;Todos&lt;/<span class="t">Link</span>&gt;
+      &lt;/<span class="t">nav</span>&gt;
+      &lt;<span class="t">Routes</span>&gt;
+        &lt;<span class="t">Route</span> path=<span class="s">"/"</span> component={Home} /&gt;
+        &lt;<span class="t">Route</span> path=<span class="s">"/todos/:id"</span> component={Todo} /&gt;
+      &lt;/<span class="t">Routes</span>&gt;
+    &lt;/<span class="t">Router</span>&gt;
+  )
+}</code></pre>
+        </div>
+        <div class="desc">
+          <h3>A real router, History API and all</h3>
+          <p>Declarative routes, dynamic params, and client-side navigation with <code>&lt;Link&gt;</code> — the pieces you'd add anyway, already wired up.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Nested routes</b> and dynamic <code>:params</code>.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>useParams, useNavigate, useSearchParams</b>.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>&lt;Link&gt;</b> with real History-API navigation.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SERVER -->
+      <div class="pane showcase" data-pane="server">
+        <div class="win">
+          <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="fn">server.js</span></div>
+<pre><code><span class="c">// server — no DOM required</span>
+<span class="k">import</span> <span class="pn">{</span> renderToString <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js/server'</span>
+
+app.<span class="f">get</span>(<span class="s">'/'</span>, (req, res) =&gt; {
+  <span class="k">const</span> html = <span class="f">renderToString</span>(&lt;<span class="t">App</span> /&gt;)
+  res.<span class="f">send</span>(<span class="s">`&lt;div id="root"&gt;${html}&lt;/div&gt;`</span>)
+})
+
+<span class="c">// client — adopt the server markup</span>
+<span class="k">import</span> <span class="pn">{</span> hydrate <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
+<span class="f">hydrate</span>(&lt;<span class="t">App</span> /&gt;, <span class="f">document</span>.<span class="f">getElementById</span>(<span class="s">'root'</span>))</code></pre>
+        </div>
+        <div class="desc">
+          <h3>Server rendering that hydrates</h3>
+          <p><code>renderToString</code> runs in plain Node with no DOM. On the client, <code>hydrate</code> reuses the exact nodes the server sent instead of rebuilding them.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>renderToString</b> &amp; <b>renderToStaticMarkup</b>.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Better SEO and a faster first paint.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>hydrate</b> adopts markup — no flash, no rebuild.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="source">
+  <div class="wrap">
+    <div class="src-grid">
+      <div class="reveal">
+        <span class="kicker">The whole idea</span>
+        <h2>Most frameworks hide the machine. Danio hands it to you.</h2>
+        <p style="color:var(--muted);font-size:17.5px;margin-top:16px;line-height:1.6">This is the core of the reconciler — the bailout that makes updates fast. No build magic, no generated code. When something surprises you, you can open the file and read exactly why.</p>
+        <div class="src-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          real source · src/core/reconciler.js
+        </div>
+        <div style="margin-top:24px"><a class="btn ghost" href="https://github.com/gagankarthik/danio-js/blob/main/docs/ARCHITECTURE.md">Read how it's built →</a></div>
+      </div>
+      <div class="win reveal">
+        <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="fn">reconciler.js</span></div>
+<pre><code><span class="k">function</span> <span class="f">beginWork</span><span class="pn">(</span>fiber<span class="pn">) {</span>
+  <span class="k">const</span> current = fiber.alternate
+
+  <span class="k">if</span> (current &amp;&amp; !fiber.dirty &amp;&amp; <span class="f">canReuseProps</span>(fiber, current)) {
+    <span class="c">// This component's output can't have changed.</span>
+    fiber.props = current.props
+    fiber.hooks = current.hooks
+
+    <span class="k">if</span> (!fiber.childDirty) {
+      <span class="c">// Nothing below changed. Reuse the subtree whole.</span>
+      fiber.child = current.child
+      <span class="k">return</span> <span class="k">null</span>
+    }
+    <span class="f">cloneChildFibers</span>(current, fiber)
+    <span class="k">return</span> fiber.child
+  }
+  <span class="c">// ...otherwise, render it.</span>
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="lead reveal">
+      <span class="kicker">One import</span>
       <h2>A real toolkit, not just a renderer.</h2>
+      <p>Rendering, state, routing, and server rendering all ship together — no plugin hunt, no version matrix.</p>
     </div>
     <div class="inc">
       <div class="box reveal"><div class="t"><span class="d"></span> Rendering</div><p>virtual DOM · fibers · keyed diffing</p></div>
@@ -302,25 +617,121 @@
   </div>
 </section>
 
-<section id="compare">
+<section id="start-steps">
   <div class="wrap">
-    <div class="head reveal">
-      <span class="eyebrow">An honest comparison</span>
-      <h2>Where Danio shines — and where it doesn't.</h2>
-      <p>Danio isn't out to beat React at React. It wins when size, control, and understanding matter most.</p>
+    <div class="lead reveal">
+      <span class="kicker">From zero to running</span>
+      <h2>Up and running in three steps.</h2>
+      <p>Scaffold, build your UI, and deploy the static output anywhere — no server required.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="num"></div>
+        <h3>Scaffold a project</h3>
+        <p>One command gives you Vite, JSX, an example app, and TypeScript types.</p>
+        <div class="code"><code><span class="pn">$</span> npm create danio@latest my-app
+<span class="pn">$</span> cd my-app &amp;&amp; npm run dev</code></div>
+      </div>
+      <div class="step reveal">
+        <div class="num"></div>
+        <h3>Build your UI</h3>
+        <p>Write components with JSX and hooks. Add the store and router when you need them.</p>
+        <div class="code"><code><span class="k">function</span> <span class="f">App</span>() {
+  <span class="k">return</span> &lt;<span class="t">h1</span>&gt;Hello&lt;/<span class="t">h1</span>&gt;
+}</code></div>
+      </div>
+      <div class="step reveal">
+        <div class="num"></div>
+        <h3>Ship it</h3>
+        <p>Build to static files and deploy to GitHub Pages, Netlify, Vercel — anywhere.</p>
+        <div class="code"><code><span class="pn">$</span> npm run build
+<span class="c"># -> dist/ ready to deploy</span></code></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tint" id="compare">
+  <div class="wrap">
+    <div class="lead mid reveal">
+      <span class="kicker">An honest comparison</span>
+      <h2>Where Danio stands.</h2>
+      <p>Danio isn't out to beat React at React. It trades ecosystem size for something you can hold in your head.</p>
     </div>
     <div class="cmp-wrap reveal">
       <table class="cmp">
         <thead><tr><th>&nbsp;</th><th class="cd">Danio</th><th>React</th><th>Preact</th><th>Solid</th></tr></thead>
         <tbody>
-          <tr><td class="feat">Gzipped core</td><td class="cd yes">~8 kB</td><td>~45 kB</td><td>~4 kB</td><td>~7 kB</td></tr>
-          <tr><td class="feat">React-familiar API</td><td class="cd yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">Signals</td></tr>
-          <tr><td class="feat">Store + router in-box</td><td class="cd yes">Yes</td><td class="no">Separate</td><td class="no">Separate</td><td class="no">Separate</td></tr>
-          <tr><td class="feat">Readable source</td><td class="cd yes">The point</td><td class="no">Large</td><td class="no">Compact</td><td class="no">Compiler</td></tr>
-          <tr><td class="feat">SSR + hydrate</td><td class="cd yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-          <tr><td class="feat">Ecosystem &amp; hiring</td><td class="cd no">Small</td><td class="yes">Enormous</td><td class="no">Medium</td><td class="no">Growing</td></tr>
+          <tr><td class="ft">Gzipped core</td><td class="cd yes">~8 kB</td><td>~45 kB</td><td>~4 kB</td><td>~7 kB</td></tr>
+          <tr><td class="ft">React-style API</td><td class="cd yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">Signals</td></tr>
+          <tr><td class="ft">Store + router in-box</td><td class="cd yes">Yes</td><td class="no">Separate</td><td class="no">Separate</td><td class="no">Separate</td></tr>
+          <tr><td class="ft">Readable source</td><td class="cd yes">The point</td><td class="no">Large</td><td class="no">Compact</td><td class="no">Compiler</td></tr>
+          <tr><td class="ft">SSR + hydrate</td><td class="cd yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+          <tr><td class="ft">Runtime dependencies</td><td class="cd yes g">0</td><td class="yes g">0</td><td class="yes g">0</td><td class="yes g">0</td></tr>
+          <tr><td class="ft">Ecosystem &amp; hiring</td><td class="cd no">Small</td><td class="yes">Enormous</td><td class="no">Medium</td><td class="no">Growing</td></tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</section>
+
+<section id="fit">
+  <div class="wrap">
+    <div class="lead mid reveal">
+      <span class="kicker">The honest part</span>
+      <h2>Where Danio fits — and where it doesn't.</h2>
+      <p>Pick the right tool. Danio wins when size, control, and understanding matter most.</p>
+    </div>
+    <div class="fit">
+      <div class="panel pick reveal">
+        <h3><span class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Reach for Danio</h3>
+        <p class="sub2">When the framework should get out of your way.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Size-critical or embedded UIs</b> — widgets, extensions, and pages where every kilobyte counts.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Controlled internal platforms</b> — you own the stack and want no surprises in the dependency tree.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Learning how frameworks work</b> — a real, complete engine you can read end to end.</span></li>
+        </ul>
+      </div>
+      <div class="panel skip reveal">
+        <h3><span class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span> Reach for something else</h3>
+        <p class="sub2">When you need what a big ecosystem provides.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Streaming SSR or Server Components</b> today — Danio does classic SSR and hydration, not those yet.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>A huge library &amp; hiring pool</b> — React's ecosystem is enormous, and that's a real advantage.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>The absolute fastest runtime</b> — a fine-grained signals framework like Solid will edge it.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tint" id="faq">
+  <div class="wrap">
+    <div class="lead mid reveal">
+      <span class="kicker">Questions</span>
+      <h2>Good things to ask first.</h2>
+    </div>
+    <div class="faq reveal">
+      <details>
+        <summary>Is Danio production ready? <span class="pl"></span></summary>
+        <div class="a">Danio is pre-1.0 (v0.1.0) and moves quickly. The core is covered by 54 unit tests against a real DOM plus a headless-browser pass, and the API is stable. It's a great fit for internal tools, embedded UIs, and side projects today; for large mission-critical apps, weigh the small ecosystem against React's.</div>
+      </details>
+      <details>
+        <summary>Do I need a build step? <span class="pl"></span></summary>
+        <div class="a">For JSX, yes — any esbuild/Vite/Babel setup works, and <code>npm create danio</code> configures it for you. You can also skip the build entirely and use the hyperscript <code>h()</code> function directly from a <code>&lt;script type="module"&gt;</code> tag. See the docs for the no-build path.</div>
+      </details>
+      <details>
+        <summary>Can I use TypeScript? <span class="pl"></span></summary>
+        <div class="a">Yes. Danio ships hand-written type definitions, so <code>useState</code>, components, the store, and the router are all typed out of the box. The scaffolder includes a <code>jsconfig.json</code> for editor autocomplete even in plain JavaScript projects.</div>
+      </details>
+      <details>
+        <summary>How is it different from React? <span class="pl"></span></summary>
+        <div class="a">The API is intentionally React-familiar, so most components port with only an import change. The difference is underneath: Danio is ~8 kB with zero dependencies, ships its readable source, and bundles a store and router. It doesn't (yet) do Server Components, streaming SSR, Suspense, or portals.</div>
+      </details>
+      <details>
+        <summary>Is it really zero-dependency? <span class="pl"></span></summary>
+        <div class="a">Yes — the published package has no runtime dependencies. Vite and jsdom appear only as dev dependencies for the example app and the test suite; nothing ships to your users but Danio itself.</div>
+      </details>
     </div>
   </div>
 </section>
@@ -328,13 +739,10 @@
 <section id="start">
   <div class="wrap">
     <div class="cta reveal">
-      <span class="bub" style="width:120px;height:120px;top:-30px;left:8%"></span>
-      <span class="bub" style="width:70px;height:70px;bottom:10px;right:12%"></span>
-      <span class="bub" style="width:40px;height:40px;top:30%;right:26%"></span>
       <h2>Start building in one command.</h2>
       <p>Scaffold a project with Vite, JSX, an example app, and TypeScript types — ready to run.</p>
       <div class="row">
-        <span class="cmd"><span class="p">$</span> npm create danio@latest my-app <span class="cp" data-copy="npm create danio@latest my-app">Copy</span></span>
+        <span class="cmd"><span class="p">$</span><span class="txt">npm create danio@latest my-app</span><span class="cp" data-copy="npm create danio@latest my-app" aria-label="Copy command"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span></span>
         <a class="btn white" href="docs.html#get-started">Read the docs</a>
       </div>
     </div>
@@ -346,13 +754,13 @@
     <div class="foot">
       <div class="reveal">
         <a class="brand" href="#top"><svg viewBox="0 0 128 96" style="width:28px;height:28px"><use href="#fish"/></svg> Danio</a>
-        <p class="tag">A tiny fish, and a tiny framework — fast, friendly, and readable.</p>
+        <p class="tag">A tiny fish, and a tiny framework — fast, dependency-free, and written to be read.</p>
       </div>
       <div class="reveal">
         <h5>Product</h5>
         <a class="l" href="#features">Features</a>
-        <a class="l" href="#code">Code</a>
-        <a class="l" href="#compare">Compare</a>
+        <a class="l" href="#showcase">Examples</a>
+        <a class="l" href="#source">Source</a>
         <a class="l" href="brand.html">Brand kit ↗</a>
       </div>
       <div class="reveal">
@@ -364,14 +772,14 @@
       </div>
       <div class="reveal">
         <h5>Links</h5>
-        <a class="l" href="https://github.com/gagankarthik/danio">GitHub ↗</a>
-        <a class="l" href="https://www.npmjs.com/package/danio">npm ↗</a>
-        <a class="l" href="https://github.com/gagankarthik/danio/blob/main/docs/ARCHITECTURE.md">Architecture ↗</a>
+        <a class="l" href="https://github.com/gagankarthik/danio-js">GitHub ↗</a>
+        <a class="l" href="https://www.npmjs.com/package/danio-js">npm ↗</a>
+        <a class="l" href="https://github.com/gagankarthik/danio-js/blob/main/docs/ARCHITECTURE.md">Architecture ↗</a>
       </div>
     </div>
     <div class="foot-bottom">
       <span>© Danio · MIT License · built from scratch</span>
-      <span class="mono">npm i danio</span>
+      <span class="mono">npm i danio-js</span>
     </div>
   </div>
 </footer>
@@ -379,14 +787,56 @@
 <script>
 (function(){
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var els=document.querySelectorAll('.reveal');
-  if(reduce||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});}
-  else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12,rootMargin:'0px 0px -8% 0px'});els.forEach(function(e){io.observe(e)});}
-  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){var t=b.getAttribute('data-copy');if(navigator.clipboard)navigator.clipboard.writeText(t);var o=b.textContent;b.textContent='Copied!';setTimeout(function(){b.textContent=o},1400)})});
-  var n=0,c=document.getElementById('c'),btn=document.getElementById('clk');
-  if(btn){btn.addEventListener('click',function(){n++;c.textContent=n});}
-  var tank=document.getElementById('tank');
-  if(tank&&!reduce){for(var i=0;i<9;i++){var b=document.createElement('span');b.className='bubble';var s=6+Math.round(Math.random()*16);b.style.width=s+'px';b.style.height=s+'px';b.style.left=(6+Math.random()*88)+'%';b.style.animationDuration=(5+Math.random()*6)+'s';b.style.animationDelay=(-Math.random()*8)+'s';tank.appendChild(b);}}
+
+  // theme toggle
+  var root = document.documentElement;
+  try{ var saved = localStorage.getItem('danio-theme'); if(saved) root.setAttribute('data-theme', saved); }catch(e){}
+  var tb = document.getElementById('themeBtn');
+  if(tb){ tb.addEventListener('click', function(){
+    var cur = root.getAttribute('data-theme');
+    if(!cur){ cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    var next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('danio-theme', next); }catch(e){}
+  }); }
+
+  // sticky nav border
+  var nav = document.getElementById('nav');
+  var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // reveal on scroll
+  var els = document.querySelectorAll('.reveal');
+  if(reduce || !('IntersectionObserver' in window)){ els.forEach(function(e){ e.classList.add('in'); }); }
+  else{
+    var io = new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); }, {threshold:.1, rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(e){ io.observe(e); });
+  }
+
+  // copy buttons
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var t = b.getAttribute('data-copy');
+      if(navigator.clipboard) navigator.clipboard.writeText(t);
+      var old = b.innerHTML;
+      b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+      setTimeout(function(){ b.innerHTML = old; }, 1400);
+    });
+  });
+
+  // tabbed showcase
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      var key = t.getAttribute('data-tab');
+      tabs.forEach(function(x){ x.classList.toggle('on', x === t); });
+      document.querySelectorAll('.pane').forEach(function(p){ p.classList.toggle('on', p.getAttribute('data-pane') === key); });
+    });
+  });
+
+  // live counter demo (mirrors the code shown)
+  var n = 0, c = document.getElementById('c'), c2 = document.getElementById('c2'), btn = document.getElementById('clk');
+  if(btn){ btn.addEventListener('click', function(){ n++; c.textContent = n; c2.textContent = n; }); }
 })();
 </script>
 </body>

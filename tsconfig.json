@@ -9,11 +9,11 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "danio",
+    "jsxImportSource": "danio-js",
     "paths": {
-      "danio": ["./types/index.d.ts"],
-      "danio/jsx-runtime": ["./types/jsx-runtime.d.ts"],
-      "danio/jsx-dev-runtime": ["./types/jsx-runtime.d.ts"]
+      "danio-js": ["./types/index.d.ts"],
+      "danio-js/jsx-runtime": ["./types/jsx-runtime.d.ts"],
+      "danio-js/jsx-dev-runtime": ["./types/jsx-runtime.d.ts"]
     }
   },
   "include": ["types/**/*.ts", "test/types.test-d.tsx"]

@@ -113,8 +113,8 @@
     <a class="brand" href="index.html"><svg viewBox="0 0 128 96"><use href="#fish"/></svg> Danio</a>
     <div class="nav-r">
       <a href="index.html">Home</a>
-      <a href="https://github.com/gagankarthik/danio/blob/main/docs/ARCHITECTURE.md">Architecture</a>
-      <a href="https://github.com/gagankarthik/danio">GitHub</a>
+      <a href="https://github.com/gagankarthik/danio-js/blob/main/docs/ARCHITECTURE.md">Architecture</a>
+      <a href="https://github.com/gagankarthik/danio-js">GitHub</a>
       <a class="cta" href="#get-started">Get started</a>
     </div>
   </div>
@@ -188,18 +188,18 @@ npm run dev</code></pre>
 
     <h3 id="add-existing">Adding Danio to an existing project</h3>
     <p>Already have a Vite project? Install the package and point the JSX compiler at Danio's runtime.</p>
-    <pre><code>npm install danio</code></pre>
+    <pre><code>npm install danio-js</code></pre>
     <pre><code><span class="c">// vite.config.js</span>
 <span class="k">import</span> <span class="pn">{</span> defineConfig <span class="pn">}</span> <span class="k">from</span> <span class="s">'vite'</span>
 
 <span class="k">export default</span> <span class="f">defineConfig</span><span class="pn">({</span>
-  esbuild<span class="pn">:</span> <span class="pn">{</span> jsx<span class="pn">:</span> <span class="s">'automatic'</span><span class="pn">,</span> jsxImportSource<span class="pn">:</span> <span class="s">'danio'</span> <span class="pn">},</span>
+  esbuild<span class="pn">:</span> <span class="pn">{</span> jsx<span class="pn">:</span> <span class="s">'automatic'</span><span class="pn">,</span> jsxImportSource<span class="pn">:</span> <span class="s">'danio-js'</span> <span class="pn">},</span>
 <span class="pn">})</span></code></pre>
     <p>For editor autocomplete and type-checking, add a <code>jsconfig.json</code> (or <code>tsconfig.json</code>):</p>
     <pre><code><span class="pn">{</span>
   <span class="s">"compilerOptions"</span><span class="pn">:</span> <span class="pn">{</span>
     <span class="s">"jsx"</span><span class="pn">:</span> <span class="s">"react-jsx"</span><span class="pn">,</span>
-    <span class="s">"jsxImportSource"</span><span class="pn">:</span> <span class="s">"danio"</span><span class="pn">,</span>
+    <span class="s">"jsxImportSource"</span><span class="pn">:</span> <span class="s">"danio-js"</span><span class="pn">,</span>
     <span class="s">"moduleResolution"</span><span class="pn">:</span> <span class="s">"Bundler"</span>
   <span class="pn">}</span>
 <span class="pn">}</span></code></pre>
@@ -208,7 +208,7 @@ npm run dev</code></pre>
     <!-- FIRST COMPONENT -->
     <h2 id="first-component">Your first component</h2>
     <p>A component is a plain function that returns markup. Mount it into the page with <code>render</code>.</p>
-    <pre><code><span class="k">import</span> <span class="pn">{</span> render <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+    <pre><code><span class="k">import</span> <span class="pn">{</span> render <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 
 <span class="k">function</span> <span class="f">Hello</span><span class="pn">({</span> name <span class="pn">}) {</span>
   <span class="k">return</span> <span class="pn">&lt;</span><span class="t">h1</span><span class="pn">&gt;</span>Hello, <span class="pn">{</span>name<span class="pn">}&lt;/</span><span class="t">h1</span><span class="pn">&gt;</span>
@@ -243,7 +243,7 @@ npm run dev</code></pre>
 
     <h3 id="state">State with useState</h3>
     <p><code>useState</code> gives a component memory. It returns the current value and a setter; calling the setter re-renders the component.</p>
-    <pre><code><span class="k">import</span> <span class="pn">{</span> useState <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+    <pre><code><span class="k">import</span> <span class="pn">{</span> useState <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 
 <span class="k">function</span> <span class="f">Counter</span><span class="pn">() {</span>
   <span class="k">const</span> <span class="pn">[</span>count<span class="pn">,</span> setCount<span class="pn">] =</span> <span class="f">useState</span><span class="pn">(</span><span class="n">0</span><span class="pn">)</span>
@@ -254,7 +254,7 @@ npm run dev</code></pre>
 
     <h3 id="effects">Side effects with useEffect</h3>
     <p><code>useEffect</code> runs code after the DOM is updated — timers, subscriptions, fetches. Return a function to clean up. The dependency array controls when it re-runs.</p>
-    <pre><code><span class="k">import</span> <span class="pn">{</span> useState<span class="pn">,</span> useEffect <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+    <pre><code><span class="k">import</span> <span class="pn">{</span> useState<span class="pn">,</span> useEffect <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 
 <span class="k">function</span> <span class="f">Clock</span><span class="pn">() {</span>
   <span class="k">const</span> <span class="pn">[</span>now<span class="pn">,</span> setNow<span class="pn">] =</span> <span class="f">useState</span><span class="pn">(() =&gt;</span> <span class="k">new</span> <span class="f">Date</span><span class="pn">())</span>
@@ -295,7 +295,7 @@ npm run dev</code></pre>
 
     <h3 id="context">Context</h3>
     <p>Pass values deep into the tree without threading props through every level.</p>
-    <pre><code><span class="k">import</span> <span class="pn">{</span> createContext<span class="pn">,</span> useContext <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+    <pre><code><span class="k">import</span> <span class="pn">{</span> createContext<span class="pn">,</span> useContext <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 
 <span class="k">const</span> Theme <span class="pn">=</span> <span class="f">createContext</span><span class="pn">(</span><span class="s">'light'</span><span class="pn">)</span>
 
@@ -310,7 +310,7 @@ npm run dev</code></pre>
 
     <h3 id="memo">Performance: memo</h3>
     <p>By default, when a component re-renders, its children re-render too. <code>memo</code> skips a child whose props haven't changed (compared shallowly).</p>
-    <pre><code><span class="k">import</span> <span class="pn">{</span> memo <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+    <pre><code><span class="k">import</span> <span class="pn">{</span> memo <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 
 <span class="k">const</span> Row <span class="pn">=</span> <span class="f">memo</span><span class="pn">(</span><span class="k">function</span> <span class="f">Row</span><span class="pn">({</span> label <span class="pn">}) {</span>
   <span class="k">return</span> <span class="pn">&lt;</span><span class="t">li</span><span class="pn">&gt;{</span>label<span class="pn">}&lt;/</span><span class="t">li</span><span class="pn">&gt;</span>
@@ -319,7 +319,7 @@ npm run dev</code></pre>
 
     <h3 id="errors">Error boundaries</h3>
     <p>A thrown error would otherwise blank the whole page. An <code>ErrorBoundary</code> contains the failure to one subtree and shows a fallback instead. It catches errors in both rendering and effects.</p>
-    <pre><code><span class="k">import</span> <span class="pn">{</span> ErrorBoundary <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+    <pre><code><span class="k">import</span> <span class="pn">{</span> ErrorBoundary <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 
 <span class="pn">&lt;</span><span class="t">ErrorBoundary</span> fallback<span class="pn">={(</span>err<span class="pn">,</span> reset<span class="pn">) =&gt; (</span>
   <span class="pn">&lt;</span><span class="t">div</span><span class="pn">&gt;</span>Something broke: <span class="pn">{</span>err<span class="pn">.</span>message<span class="pn">}</span> <span class="pn">&lt;</span><span class="t">button</span> onClick<span class="pn">={</span>reset<span class="pn">}&gt;</span>Retry<span class="pn">&lt;/</span><span class="t">button</span><span class="pn">&gt;&lt;/</span><span class="t">div</span><span class="pn">&gt;</span>
@@ -330,7 +330,7 @@ npm run dev</code></pre>
     <!-- STORE -->
     <h2 id="store">The store</h2>
     <p>For app-wide state, Danio ships a Redux-style store: a single state object, updated by pure reducers, read through selectors. Wrap your app in a <code>StoreProvider</code>, then use <code>useSelector</code> and <code>useDispatch</code>.</p>
-    <pre><code><span class="k">import</span> <span class="pn">{</span> createStore<span class="pn">,</span> StoreProvider<span class="pn">,</span> useSelector<span class="pn">,</span> useDispatch <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+    <pre><code><span class="k">import</span> <span class="pn">{</span> createStore<span class="pn">,</span> StoreProvider<span class="pn">,</span> useSelector<span class="pn">,</span> useDispatch <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 
 <span class="k">function</span> <span class="f">reducer</span><span class="pn">(</span>state <span class="pn">= {</span> count<span class="pn">:</span> <span class="n">0</span> <span class="pn">},</span> action<span class="pn">) {</span>
   <span class="k">switch</span> <span class="pn">(</span>action<span class="pn">.</span>type<span class="pn">) {</span>
@@ -353,7 +353,7 @@ npm run dev</code></pre>
     <!-- ROUTER -->
     <h2 id="router">The router</h2>
     <p>The router maps the URL to a screen using the History API — no page reloads. Wrap your app in <code>Router</code>, declare <code>Route</code>s, and navigate with <code>Link</code>.</p>
-    <pre><code><span class="k">import</span> <span class="pn">{</span> Router<span class="pn">,</span> Routes<span class="pn">,</span> Route<span class="pn">,</span> Link<span class="pn">,</span> useParams <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+    <pre><code><span class="k">import</span> <span class="pn">{</span> Router<span class="pn">,</span> Routes<span class="pn">,</span> Route<span class="pn">,</span> Link<span class="pn">,</span> useParams <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 
 <span class="k">function</span> <span class="f">App</span><span class="pn">() {</span>
   <span class="k">return</span> <span class="pn">(</span>
@@ -381,7 +381,7 @@ npm run dev</code></pre>
     <p>For SEO and a fast first paint, render your app to HTML on the server, then make it interactive on the client. Danio ships both halves.</p>
     <p><b>On the server</b> — <code>renderToString</code> runs in plain Node with no DOM. It runs your components (so <code>useState</code> initial values, <code>useMemo</code>, and <code>useContext</code> all resolve) and returns HTML. Effects don't run and state doesn't change — there's a single render.</p>
     <pre><code><span class="c">// server.js</span>
-<span class="k">import</span> <span class="pn">{</span> renderToString <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio/server'</span>
+<span class="k">import</span> <span class="pn">{</span> renderToString <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js/server'</span>
 
 app<span class="pn">.</span><span class="f">get</span><span class="pn">(</span><span class="s">'*'</span><span class="pn">, (</span>req<span class="pn">,</span> res<span class="pn">) =&gt; {</span>
   <span class="k">const</span> html <span class="pn">=</span> <span class="f">renderToString</span><span class="pn">(&lt;</span><span class="t">App</span> <span class="pn">/&gt;)</span>
@@ -389,7 +389,7 @@ app<span class="pn">.</span><span class="f">get</span><span class="pn">(</span><
 <span class="pn">})</span></code></pre>
     <p><b>On the client</b> — <code>hydrate</code> adopts the server markup instead of rebuilding it, reusing each node and attaching the parts HTML can't carry (event handlers, refs, form values).</p>
     <pre><code><span class="c">// client.js</span>
-<span class="k">import</span> <span class="pn">{</span> hydrate <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio'</span>
+<span class="k">import</span> <span class="pn">{</span> hydrate <span class="pn">}</span> <span class="k">from</span> <span class="s">'danio-js'</span>
 <span class="f">hydrate</span><span class="pn">(&lt;</span><span class="t">App</span> <span class="pn">/&gt;,</span> <span class="f">document</span><span class="pn">.</span><span class="f">getElementById</span><span class="pn">(</span><span class="s">'root'</span><span class="pn">))</span></code></pre>
     <div class="callout">Render the same tree on both sides. If the markup and the components disagree, Danio warns in development and rebuilds the mismatched node on the client rather than crashing. Streaming SSR and React Server Components aren't supported yet.</div>
 
@@ -420,7 +420,7 @@ app<span class="pn">.</span><span class="f">get</span><span class="pn">(</span><
         <tr><td><code>ErrorBoundary</code></td><td>Contain render/effect errors</td></tr>
         <tr><td><code>createStore, StoreProvider, useSelector, useDispatch</code></td><td>Store</td></tr>
         <tr><td><code>Router, Routes, Route, Link, useParams, useNavigate</code></td><td>Routing</td></tr>
-        <tr><td><code>renderToString</code> <span class="muted">(from <code>danio/server</code>)</span></td><td>Server rendering</td></tr>
+        <tr><td><code>renderToString</code> <span class="muted">(from <code>danio-js/server</code>)</span></td><td>Server rendering</td></tr>
       </tbody>
     </table></div>
 
@@ -428,7 +428,7 @@ app<span class="pn">.</span><span class="f">get</span><span class="pn">(</span><
     <h2 id="no-build">Using Danio without a build step</h2>
     <p>JSX is a convenience, not a requirement. <code>h</code> is the same function the compiler calls, so you can write the tree by hand and open an HTML file directly — no npm, no bundler.</p>
     <pre><code><span class="pn">&lt;</span><span class="t">script</span> type<span class="pn">=</span><span class="s">"module"</span><span class="pn">&gt;</span>
-  <span class="k">import</span> <span class="pn">{</span> h<span class="pn">,</span> render<span class="pn">,</span> useState <span class="pn">}</span> <span class="k">from</span> <span class="s">'https://esm.sh/danio'</span>
+  <span class="k">import</span> <span class="pn">{</span> h<span class="pn">,</span> render<span class="pn">,</span> useState <span class="pn">}</span> <span class="k">from</span> <span class="s">'https://esm.sh/danio-js'</span>
 
   <span class="k">function</span> <span class="f">Counter</span><span class="pn">() {</span>
     <span class="k">const</span> <span class="pn">[</span>n<span class="pn">,</span> setN<span class="pn">] =</span> <span class="f">useState</span><span class="pn">(</span><span class="n">0</span><span class="pn">)</span>
@@ -438,9 +438,9 @@ app<span class="pn">.</span><span class="f">get</span><span class="pn">(</span><
 <span class="pn">&lt;/</span><span class="t">script</span><span class="pn">&gt;</span></code></pre>
 
     <div class="next">
-      <a href="https://github.com/gagankarthik/danio/blob/main/docs/ARCHITECTURE.md"><div class="s">Go deeper</div><div class="t2">How Danio is built →</div></a>
+      <a href="https://github.com/gagankarthik/danio-js/blob/main/docs/ARCHITECTURE.md"><div class="s">Go deeper</div><div class="t2">How Danio is built →</div></a>
       <a href="index.html#compare"><div class="s">Decide</div><div class="t2">Where Danio fits →</div></a>
-      <a href="https://github.com/gagankarthik/danio"><div class="s">Source</div><div class="t2">Read it on GitHub →</div></a>
+      <a href="https://github.com/gagankarthik/danio-js"><div class="s">Source</div><div class="t2">Read it on GitHub →</div></a>
     </div>
   </main>
 </div>
@@ -448,7 +448,7 @@ app<span class="pn">.</span><span class="f">get</span><span class="pn">(</span><
 <footer>
   <div class="fin">
     <span>Danio — a tiny, readable frontend framework. MIT licensed.</span>
-    <span class="mono" style="font-family:var(--mono)">npm i danio</span>
+    <span class="mono" style="font-family:var(--mono)">npm i danio-js</span>
   </div>
 </footer>
 </body>

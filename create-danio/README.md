@@ -1,6 +1,6 @@
 # create-danio
 
-The fastest way to start a [Danio](https://www.npmjs.com/package/danio) app.
+The fastest way to start a [Danio](https://www.npmjs.com/package/danio-js) app.
 
 ```bash
 npm create danio@latest my-app
@@ -22,7 +22,7 @@ npx create-danio my-app
 ```
 
 Zero dependencies — it's just Node copying a template. See the
-[Danio docs](https://github.com/gagankarthik/danio#readme) for everything else.
+[Danio docs](https://github.com/gagankarthik/danio-js#readme) for everything else.
 
 ## License
 

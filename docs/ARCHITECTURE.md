@@ -55,7 +55,7 @@ jsx("div", { className: "card", children: "Hello" })
 That translation is a *compile-time* job, and it is a solved, boring problem. Writing our
 own JSX parser would teach us about parsers, not about frameworks. So we let Vite's built-in
 compiler (esbuild) do the translation — but we point it at **our** function, not React's.
-That's the `jsxImportSource: 'danio'` line in `vite.config.js`.
+That's the `jsxImportSource: 'danio-js'` line in `vite.config.js`.
 
 Vite also gives us a dev server with hot reload so the feedback loop is instant.
 
@@ -235,7 +235,7 @@ The whole point is that this should feel obvious to write. If you know React, yo
 know Danio — that familiarity *is* the design goal, not a coincidence.
 
 ```jsx
-import { render, useState, useEffect } from 'danio'
+import { render, useState, useEffect } from 'danio-js'
 
 function Counter({ label }) {
   const [n, setN] = useState(0)
@@ -258,7 +258,7 @@ With the store and router:
 
 ```jsx
 import { render, createStore, StoreProvider, useSelector, useDispatch,
-         Router, Routes, Route, Link } from 'danio'
+         Router, Routes, Route, Link } from 'danio-js'
 
 const store = createStore(reducer)
 

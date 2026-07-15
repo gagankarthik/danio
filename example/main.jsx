@@ -1,4 +1,4 @@
-import { render, StoreProvider, Router } from 'danio'
+import { render, StoreProvider, Router } from 'danio-js'
 import { store } from './store.js'
 import { App } from './App.jsx'
 import './styles.css'

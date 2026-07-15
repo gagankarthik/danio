@@ -23,7 +23,7 @@ The first release. A complete, from-scratch frontend framework.
 - **Router** — a History-API `<Router>`, `<Routes>`, `<Route>`, `<Link>`, `useParams`,
   `useNavigate`, `useSearchParams`.
 - **Server rendering** — `renderToString` / `renderToStaticMarkup` (DOM-free, from
-  `danio/server`) and `hydrate` (adopts server markup instead of rebuilding it).
+  `danio-js/server`) and `hydrate` (adopts server markup instead of rebuilding it).
 - **Tooling** — JSX automatic runtime, hand-written TypeScript definitions, and the
   `create-danio` scaffolder.
 

@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/danio"><img src="https://img.shields.io/npm/v/danio.svg?color=1466E0" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/danio-js"><img src="https://img.shields.io/npm/v/danio-js.svg?color=1466E0" alt="npm"></a>
   <img src="https://img.shields.io/badge/gzipped-8_kB-1466E0" alt="8 kB gzipped">
   <img src="https://img.shields.io/badge/dependencies-0-1466E0" alt="zero dependencies">
   <img src="https://img.shields.io/badge/types-included-1466E0" alt="TypeScript types included">
@@ -22,10 +22,10 @@ in about 2,000 lines you can read in an afternoon. It isn't a wrapper around Rea
 of Preact; it's the whole engine, written to be understood. **If you know React, you already
 know Danio.**
 
-🌐 **[Website](https://gagankarthik.github.io/danio/)** &nbsp;·&nbsp; 📖 **[Documentation](https://gagankarthik.github.io/danio/docs.html)** &nbsp;·&nbsp; 🎨 **[Brand kit](https://gagankarthik.github.io/danio/brand.html)**
+🌐 **[Website](https://gagankarthik.github.io/danio-js/)** &nbsp;·&nbsp; 📖 **[Documentation](https://gagankarthik.github.io/danio-js/docs.html)** &nbsp;·&nbsp; 🎨 **[Brand kit](https://gagankarthik.github.io/danio-js/brand.html)**
 
 ```jsx
-import { render, useState } from 'danio'
+import { render, useState } from 'danio-js'
 
 function Counter() {
   const [n, setN] = useState(0)
@@ -43,7 +43,7 @@ npm create danio@latest my-app
 cd my-app && npm run dev
 
 # …or add Danio to an existing project
-npm install danio
+npm install danio-js
 ```
 
 To compile JSX, point your bundler at Danio's runtime. With **Vite**:
@@ -51,7 +51,7 @@ To compile JSX, point your bundler at Danio's runtime. With **Vite**:
 ```js
 // vite.config.js
 export default {
-  esbuild: { jsx: 'automatic', jsxImportSource: 'danio' },
+  esbuild: { jsx: 'automatic', jsxImportSource: 'danio-js' },
 }
 ```
 
@@ -63,7 +63,7 @@ Full setup, including a `jsconfig.json` for editor autocomplete, is in the
 - **Tiny** — the whole framework is ~8 kB gzipped with **zero** runtime dependencies.
 - **Familiar** — components, JSX, `useState`, `useEffect`, context, a Redux-style store, a
   router. Nothing new to learn, only less of it.
-- **Readable** — every file is plain, commented JavaScript. Open `node_modules/danio/src`
+- **Readable** — every file is plain, commented JavaScript. Open `node_modules/danio-js/src`
   and the framework is right there. Danio even ships its source, on purpose.
 - **Fast** — a fiber reconciler with bailouts means a `setState` re-renders one component,
   not the whole tree (~200× faster updates on a 500-row benchmark).
@@ -80,7 +80,7 @@ import {
   render, useState, useEffect,
   createStore, StoreProvider, useSelector, useDispatch,
   Router, Routes, Route, Link,
-} from 'danio'
+} from 'danio-js'
 
 function Todos() {
   const todos = useSelector((s) => s.todos)
@@ -117,11 +117,11 @@ plain Node with no DOM:
 
 ```js
 // server
-import { renderToString } from 'danio/server'
+import { renderToString } from 'danio-js/server'
 res.send(`<div id="root">${renderToString(<App />)}</div>`)
 
 // client
-import { hydrate } from 'danio'
+import { hydrate } from 'danio-js'
 hydrate(<App />, document.getElementById('root'))
 ```
 
